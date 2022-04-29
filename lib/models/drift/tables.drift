@@ -1,0 +1,147 @@
+CREATE TABLE cbook
+(
+    bookid bigint NOT NULL,
+    booktitle character(40) NOT NULL,
+    booktype character(10),
+    bookreadtime bigint,
+    bookvalue bigint,
+    citationquantity bigint,
+    bookdate date NOT NULL,
+    genreid bigint,
+    author character(60) NOT NULL,
+    CONSTRAINT cbook_pkey PRIMARY KEY (bookid),
+    CONSTRAINT genreidfk FOREIGN KEY (genreid)
+        REFERENCES cgenre (genreid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+) AS book
+
+CREATE TABLE cgenre
+(
+    genreid bigint NOT NULL,
+    genrename character(30) NOT NULL,
+    popularity bigint,
+    CONSTRAINT cgenre_pkey PRIMARY KEY (genreid)
+)AS genre; -- see the explanation on "AS Category" below
+
+CREATE TABLE clist
+(
+    listid bigint NOT NULL,
+    listglobalid bigint NOT NULL,
+    creatorid bigint NOT NULL,
+    listsphere character(30),
+    listdiff bigint NOT NULL,
+    fullreadtime bigint,
+    aboutlist text,
+    listtitle character(50) NOT NULL,
+    CONSTRAINT clist_pkey PRIMARY KEY (listid),
+    CONSTRAINT creatoridfk FOREIGN KEY (creatorid)
+        REFERENCES cuser (userid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+CREATE TABLE cuser
+(
+    userid bigint NOT NULL,
+    userpswd character(64) NOT NULL,
+    userlogin character(64) NOT NULL,
+    usernick character(32),
+    CONSTRAINT ruser_pkey PRIMARY KEY (userid)
+)
+
+CREATE TABLE raboutuser
+(
+    userid bigint NOT NULL,
+    userabout text,
+    CONSTRAINT raboutuser_pkey PRIMARY KEY (userid),
+    CONSTRAINT useridfk FOREIGN KEY (userid)
+        REFERENCES cuser (userid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+CREATE TABLE rbooklist
+(
+    listid bigint NOT NULL,
+    bookid bigint NOT NULL,
+    bookpos bigint,
+    CONSTRAINT rbooklist_pkey PRIMARY KEY (listid, bookid),
+    CONSTRAINT bookidfk FOREIGN KEY (bookid)
+        REFERENCES cbook (bookid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT listidfk FOREIGN KEY (listid)
+        REFERENCES clist (listid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+CREATE TABLE rlistcomment
+(
+    commentid bigint NOT NULL,
+    listid bigint NOT NULL,
+    userid bigint NOT NULL,
+    commenttext text NOT NULL,
+    datetime timestamp without time zone,
+    CONSTRAINT rlistcomment_pkey PRIMARY KEY (commentid),
+    CONSTRAINT listidfk FOREIGN KEY (listid)
+        REFERENCES clist (listid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+    CONSTRAINT useridfk FOREIGN KEY (userid)
+        REFERENCES cuser (userid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+CREATE TABLE ruserbook
+(
+    userid bigint NOT NULL,
+    bookid bigint NOT NULL,
+    bookstate character(20) NOT NULL,
+    CONSTRAINT ruserbook_pkey PRIMARY KEY (userid, bookid),
+    CONSTRAINT bookidfk FOREIGN KEY (bookid)
+        REFERENCES cbook (bookid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT useridfk FOREIGN KEY (userid)
+        REFERENCES cuser (userid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+CREATE TABLE ruserlist
+(
+    userid bigint NOT NULL,
+    listid bigint NOT NULL,
+    liststate character(20) NOT NULL,
+    deadlinedate date,
+    CONSTRAINT ruserlist_pkey PRIMARY KEY (userid, listid),
+    CONSTRAINT listidfk FOREIGN KEY (listid)
+        REFERENCES clist (listid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT useridfk FOREIGN KEY (userid)
+        REFERENCES cuser (userid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+/* after declaring your tables, you can put queries in here. Just
+   write the name of the query, a colon (:) and the SQL: */
+allBooks: SELECT * FROM cbook;
+
+lastBookToRead:
+    SELECT cbook.booktitle
+    FROM clist
+    INNER JOIN ruserlist ON clist.listid = ruserlist.listid
+    INNER JOIN rbooklist ON clist.listid = rbooklist.listid
+    INNER JOIN cbook ON cbook.bookid = rbooklist.bookid
+    INNER JOIN ruserbook ON ruserbook.bookid = cbook.bookid
+    WHERE
+        ruserbook.userid = 0 AND
+        ruserbook.bookstate = 'ip' AND
+        ruserlist.liststate = 'ip'
+    ORDER BY userid ASC, listid ASC
+    LIMIT 1;
