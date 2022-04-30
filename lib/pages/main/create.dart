@@ -121,7 +121,7 @@ class _DiffDropButtonWidgetState extends State<DiffDropButtonWidget> {
         fontSize: 20,
         color: Color(0xff292931),
       ),
-      borderRadius: BorderRadius.all(Radius.circular(40.0)),
+      borderRadius: BorderRadius.circular(40.0),
       onChanged: (String? newValue) {
         setState(() {
           diffValue = newValue!;
@@ -169,14 +169,14 @@ Widget createPage(BuildContext context, String title) {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 40.0, left: 10),
-              child: Column(
+              padding: const EdgeInsets.only(left: 10),
+              child: ListView(
                 children: [
                   Row(
                     children: [
                       Container(
                           padding: EdgeInsets.only(
-                              top: 3, bottom: 3, right: 3, left: 10),
+                              left: 10, right: 3),
                           decoration: BoxDecoration(
                             color: Color(0xffFFFAFF),
                             border: Border.all(
@@ -186,10 +186,11 @@ Widget createPage(BuildContext context, String title) {
                           ),
                           child: GenreDropButtonWidget()),
                       Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
+                        padding: EdgeInsets.only(
+                            left: 10, right: 3),
                         child: Container(
                             padding: EdgeInsets.only(
-                                top: 3, bottom: 3, right: 3, left: 10),
+                                right: 3, left: 10),
                             decoration: BoxDecoration(
                               color: Color(0xffFFFAFF),
                               border: Border.all(
@@ -281,10 +282,10 @@ Widget createPage(BuildContext context, String title) {
                         itemBuilder: (context, index) {
                           final item = snap.data['title'][index];
                           return Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(top: 8.0),
                             child: Container(
                               padding:
-                                  EdgeInsets.only(left: 3, bottom: 3),
+                                  EdgeInsets.only(left: 3, bottom: 3, right: 30),
                               decoration: BoxDecoration(
                                 border: Border.all(
                                     color: Color(0xffFFFAFF), width: 2.0),
@@ -295,7 +296,7 @@ Widget createPage(BuildContext context, String title) {
                                 " " + item + " ",
                                 style: GoogleFonts.manrope(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 30,
+                                  fontSize: 18,
                                   color: Color(0xffFFFAFF),
                                 ),
                               ),

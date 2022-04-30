@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../main.dart';
 import '../widgets/drawer.dart';
+import 'about.dart';
 import 'list_page.dart';
 String title = '';
 class ListPage extends StatefulWidget {
@@ -64,8 +65,8 @@ class _ListPageState extends State<ListPage> {
       body: PageView(
         controller: _controller,
         children: [
-          listPage(context, "Home", title),
-          // aboutPage(context, "Lists"),
+          listPage(context, "List", title),
+          aboutPage(context, "About", title),
         ],
       ),
     );

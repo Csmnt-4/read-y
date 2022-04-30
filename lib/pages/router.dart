@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:read_y/pages/list/create.dart';
+import 'package:read_y/pages/main/create.dart';
 
 import 'list/list.dart';
 import 'main.dart';
-import 'list/newlist.dart';
 
 // toLoginPage(context) async {
 //   await Navigator.push(
@@ -14,11 +13,11 @@ import 'list/newlist.dart';
 //   );
 // }
 
-// toCollectionsPage(context) async{
-//   await Navigator.push(
+// toRegistrationPage(context) async {
+//   return await Navigator.push(
 //       context,
 //       MaterialPageRoute(
-//           builder: (context) => const CollectionsPage()
+//           builder: (context) => const RegistrationPage()
 //       )
 //   );
 // }
@@ -30,16 +29,6 @@ import 'list/newlist.dart';
 //     MaterialPageRoute(
 //         builder: (context) => UserListsPage(type: type)
 //     )
-//   );
-// }
-
-//
-// toTopUsersPage(context) async {
-//   await Navigator.push(
-//       context,
-//       MaterialPageRoute(
-//           builder: (context) => const TopUsersPage()
-//       )
 //   );
 // }
 
@@ -89,15 +78,6 @@ void toNewList(BuildContext context, g, y, d) async {
   );
 }
 
-// void toCollectionPage(BuildContext context, String href) async {
-//   await Navigator.push(
-//       context,
-//       MaterialPageRoute(
-//           builder: (context) => CollectionPage(href: href)
-//       )
-//   );
-// }
-
 // toSettingsPage(context) async {
 //   return await Navigator.push(
 //     context,
@@ -113,15 +93,6 @@ void toNewList(BuildContext context, g, y, d) async {
 //     MaterialPageRoute(
 //       builder: (context) => UserPage(id: id)
 //     )
-//   );
-// }
-
-// toRegistrationPage(context) async {
-//   return await Navigator.push(
-//       context,
-//       MaterialPageRoute(
-//           builder: (context) => const RegistrationPage()
-//       )
 //   );
 // }
 

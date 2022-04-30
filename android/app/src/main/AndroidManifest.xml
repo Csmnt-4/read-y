@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fspo.aniu.aniu">
+    package="com.fspo.read_y">
    <application
-        android:label="aniu"
+        android:label="Read-y"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

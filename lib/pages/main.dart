@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'list/create.dart';
+import 'main/create.dart';
 import 'main/home.dart';
 import 'main/lists.dart';
 import 'widgets/drawer.dart';
@@ -63,6 +63,7 @@ class _MainPageState extends State<MainPage> {
       ),
       body: PageView(
         controller: _controller,
+        scrollDirection: Axis.horizontal,
         children: [
           homePage(context, "Home"),
           listsPage(context, "Lists"),
