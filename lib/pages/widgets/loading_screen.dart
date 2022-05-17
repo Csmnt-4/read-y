@@ -16,14 +16,15 @@ Widget loadingScreen(BuildContext context) {
           children: const [
             SizedBox(
               child: CircularProgressIndicator(
-              strokeWidth: 6.0,
-              valueColor: AlwaysStoppedAnimation<Color>(
-                (Color(0xFF8789C0)))),
-                width: 44,
-                height: 44,
+                strokeWidth: 6.0,
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  (Color(0xFF8789C0)),
+                ),
+              ),
+              width: 44,
+              height: 44,
             ),
-          ]
-      ),
+          ]),
     ),
   );
 }

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../router.dart';
-
 Widget leftPanel(BuildContext context) {
   return Drawer(
     child: Container(
@@ -22,7 +20,9 @@ Widget leftPanel(BuildContext context) {
               top: 200,
             ),
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                // TODO: to profile (context) implementation
+              },
               child: Text(
                 'Профиль',
                 style: GoogleFonts.manrope(
@@ -39,7 +39,7 @@ Widget leftPanel(BuildContext context) {
             ),
             child: TextButton(
               onPressed: () {
-                toListsPage(context);
+            // TODO: to list (context) implementation
               },
               child: Text(
                 'Списки',
@@ -57,7 +57,9 @@ Widget leftPanel(BuildContext context) {
                 top: 20,
               ),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  // TODO: to books (context) implementation
+                },
                 child: Text(
                   'Книги',
                   style: GoogleFonts.manrope(
