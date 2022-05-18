@@ -15,28 +15,31 @@ class FirebaseUserEntity extends Equatable {
   final String email;
   final String imageUrl;
 
-  factory FirebaseUserEntity.fromJson(Map<String, dynamic> json) => FirebaseUserEntity(
-    id: json['id'] ?? "",
-    firstName: json['firstName'] ?? "",
-    lastName: json['lastName'] ?? "",
-    email: json['email'] ?? "",
-    imageUrl: json['imageUrl'] ?? "",
-  );
+  factory FirebaseUserEntity.fromJson(Map<String, dynamic> json) =>
+      FirebaseUserEntity(
+        id: json['id'] ?? "",
+        firstName: json['firstName'] ?? "",
+        lastName: json['lastName'] ?? "",
+        email: json['email'] ?? "",
+        imageUrl: json['imageUrl'] ?? "",
+      );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-    'id': id,
-    'firstName': firstName,
-    'lastName': lastName,
-    'email': email,
-    'imageUrl': imageUrl,
-  };
+        'id': id,
+        'firstName': firstName,
+        'lastName': lastName,
+        'email': email,
+        'imageUrl': imageUrl,
+      };
+
   factory FirebaseUserEntity.empty() => const FirebaseUserEntity(
-    id: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    imageUrl: "",
-  );
+        id: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        imageUrl: "",
+      );
+
   @override
   List<Object?> get props => [id, firstName, lastName, email, imageUrl];
 }

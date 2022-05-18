@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage(BuildContext context, {Key? key, required this.initialPage, this.userId, this.nickname})
+  const MainPage(BuildContext context,
+      {Key? key, required this.initialPage, this.userId, this.nickname})
       : super(key: key);
   final String initialPage;
   final userId;
@@ -32,7 +34,7 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        // TODO: Implement proper appbar
+        // TODO?: Implement more maquette-like appbar
         title: Text(
           nickname.toString().toLowerCase(),
           style: GoogleFonts.manrope(
@@ -54,61 +56,40 @@ class _MainPageState extends State<MainPage> {
       ),
       body: PageView(
         controller: _controller,
-        // TODO: Lend controller to children (to make smooth transitions!)
+        // TODO: Lend controller to children (Smooth transitions)
         scrollDirection: Axis.horizontal,
         children: [
-          Text('data')
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                  onPressed: () async {
+                    try {
+                      var test = await FirebaseFirestore.instance
+                          .collection("users")
+                          .where("nick", isEqualTo: '')
+                          .get()
+                          .then((qSnap) => qSnap.docs,
+                              onError: (e) =>
+                                  print("Something went wrong: " + e));
+                      print("\n");
+                      print(test.toString());
+                      print("\n");
+                      if(test.isEmpty){
+                        print('empty');
+                      }
+                    } catch (e) {
+                      print(e);
+                    }
+                  },
+                  child: Text('data'))
+            ],
+          )
+
           // homePage(context, "Home"),
           // listsPage(context, "Lists"),
           // createPage(context, "Create"),
         ],
-      ),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }

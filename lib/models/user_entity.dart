@@ -17,15 +17,13 @@ class UserEntity extends Equatable {
   final Map lists;
 
   UserEntity.fromFirestore(
-      DocumentSnapshot<Map<String, dynamic>> snapshot,
-      SnapshotOptions? options,) :
-        id = snapshot.data()?["id"],
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+    SnapshotOptions? options,
+  )   : id = snapshot.data()?["id"],
         nick = snapshot.data()?["nick"],
         about = snapshot.data()?["about"],
-        books =
-        (snapshot.data()?["books"] as Map<dynamic, dynamic>),
-  lists =
-  (snapshot.data()?["lists"] as Map<dynamic, dynamic>);
+        books = (snapshot.data()?["books"] as Map<dynamic, dynamic>),
+        lists = (snapshot.data()?["lists"] as Map<dynamic, dynamic>);
 
   Map<String, dynamic> toFirestore() {
     return {

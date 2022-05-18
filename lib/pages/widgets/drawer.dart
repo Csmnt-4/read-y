@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:read_y/data/fonts.dart';
 
 Widget leftPanel(BuildContext context) {
   return Drawer(
@@ -25,11 +25,7 @@ Widget leftPanel(BuildContext context) {
               },
               child: Text(
                 'Профиль',
-                style: GoogleFonts.manrope(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 40,
-                  color: Color(0xff292931),
-                ),
+                style: h2Black,
               ),
             ),
           ),
@@ -39,15 +35,11 @@ Widget leftPanel(BuildContext context) {
             ),
             child: TextButton(
               onPressed: () {
-            // TODO: to list (context) implementation
+                // TODO: to list search (context) implementation
               },
               child: Text(
-                'Списки',
-                style: GoogleFonts.manrope(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 40,
-                  color: Color(0xff292931),
-                ),
+                'Поиск списков',
+                style: h2Black,
               ),
             ),
           ),
@@ -60,14 +52,7 @@ Widget leftPanel(BuildContext context) {
                 onPressed: () {
                   // TODO: to books (context) implementation
                 },
-                child: Text(
-                  'Книги',
-                  style: GoogleFonts.manrope(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 40,
-                    color: Color(0xff292931),
-                  ),
-                ),
+                child: Text('Книги', style: h2Black),
               ),
             ),
           ),

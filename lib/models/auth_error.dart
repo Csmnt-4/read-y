@@ -1,4 +1,5 @@
 enum AuthError {
+  nicknameInUse,
   invalidEmail,
   userDisabled,
   userNotFound,
