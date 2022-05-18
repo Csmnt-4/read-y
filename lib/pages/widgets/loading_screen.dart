@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import '../../data/colors.dart';
 
 Widget loadingScreen(BuildContext context) {
-  double width = MediaQuery.of(context).size.width;
-  double height = MediaQuery.of(context).size.height;
+  final width = MediaQuery.of(context).size.width;
+  final height = MediaQuery.of(context).size.height;
 
   return Scaffold(
-    backgroundColor: whitey,
+    backgroundColor: cWh,
     body: Container(
       height: height,
       width: width,
@@ -17,14 +17,14 @@ Widget loadingScreen(BuildContext context) {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
+              width: 44,
+              height: 44,
               child: CircularProgressIndicator(
                 strokeWidth: 6.0,
                 valueColor: AlwaysStoppedAnimation<Color>(
-                  blackish,
+                  cBl,
                 ),
               ),
-              width: 44,
-              height: 44,
             ),
           ]),
     ),

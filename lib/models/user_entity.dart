@@ -25,15 +25,16 @@ class UserEntity extends Equatable {
         books = (snapshot.data()?["books"] as Map<dynamic, dynamic>),
         lists = (snapshot.data()?["lists"] as Map<dynamic, dynamic>);
 
-  Map<String, dynamic> toFirestore() {
-    return {
-      if (id != null) "id": id,
-      if (nick != null) "nick": nick,
-      if (about != null) "about": about,
-      if (books != null) "books": books,
-      if (lists != null) "lists": lists,
-    };
-  }
+  //TODO: Upgrade or remove!
+  // Map<String, dynamic> toFirestore() {
+  //   return {
+  //     if (id != null) "id": id,
+  //     if (nick != null) "nick": nick,
+  //     if (about != null) "about": about,
+  //     if (books != null) "books": books,
+  //     if (lists != null) "lists": lists,
+  //   };
+  // }
 
   factory UserEntity.fromJson(Map<String, dynamic> json) => UserEntity(
         id: json['id'] ?? "",

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:flutter/foundation.dart';
 
 import '../models/auth_error.dart';
 import '../models/firebase_user_entity.dart';
@@ -48,7 +49,9 @@ class FirebaseAuthService {
 
       return _mapFirebaseUser(userCredential.user!);
     } on auth.FirebaseAuthException catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       throw _determineError(e);
     }
   }
@@ -60,10 +63,15 @@ class FirebaseAuthService {
   }) async {
     var test = await FirebaseFirestore.instance
         .collection("users")
-        .where("nick", isEqualTo: nick.toLowerCase())
+        .where(
+          "nick",
+          isEqualTo: nick.toLowerCase(),
+        )
         .get()
-        .then((qSnap) => qSnap.docs,
-            onError: (e) => print("Something went wrong: " + e));
+        .then(
+          (qSnap) => qSnap.docs,
+          onError: (e) => print('Something went wrong: $e'),
+        );
 
     if (test.isEmpty) {
       try {
@@ -85,9 +93,9 @@ class FirebaseAuthService {
           'id': _firebaseAuth.currentUser?.uid,
         };
 
-        user
-            .set(userData)
-            .onError((e, _) => print("Error writing document: $e"));
+        user.set(userData).onError(
+              (e, _) => print("Error writing document: $e"),
+            );
 
         return _mapFirebaseUser(_firebaseAuth.currentUser!);
       } on auth.FirebaseAuthException catch (e) {

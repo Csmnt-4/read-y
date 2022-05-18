@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:read_y/data/fonts.dart';
 
+import '../../data/colors.dart';
+
 Widget leftPanel(BuildContext context) {
   return Drawer(
     child: Container(
       decoration: BoxDecoration(
-        color: Color(0xffFFFAFF),
-        border: Border.all(color: Color(0xffFFFAFF), width: 2.0),
-        borderRadius: BorderRadius.only(
+        color: cWh,
+        border: Border.all(color: cWh, width: 2.0),
+        borderRadius: const BorderRadius.only(
           topRight: Radius.circular(200.0),
           bottomRight: Radius.circular(200.0),
         ),
@@ -16,7 +18,7 @@ Widget leftPanel(BuildContext context) {
         padding: EdgeInsets.zero,
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               top: 200,
             ),
             child: TextButton(
@@ -30,7 +32,7 @@ Widget leftPanel(BuildContext context) {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               top: 20,
             ),
             child: TextButton(
@@ -43,17 +45,15 @@ Widget leftPanel(BuildContext context) {
               ),
             ),
           ),
-          Container(
-            child: Padding(
-              padding: EdgeInsets.only(
-                top: 20,
-              ),
-              child: TextButton(
-                onPressed: () {
-                  // TODO: to books (context) implementation
-                },
-                child: Text('Книги', style: h2Black),
-              ),
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 20,
+            ),
+            child: TextButton(
+              onPressed: () {
+                // TODO: to books (context) implementation
+              },
+              child: Text('Книги', style: h2Black),
             ),
           ),
         ],

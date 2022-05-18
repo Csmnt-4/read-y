@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:read_y/data/fonts.dart';
-import 'package:read_y/pages/register/register_widget.dart';
+import 'package:read_y/pages/register/register.dart';
 
 import '../data/colors.dart';
 import 'extra/clippers.dart';
-import 'login/login_widget.dart';
+import 'extra/rounded_containers.dart';
+import 'login/login.dart';
 
 class SplashScreenWidget extends StatefulWidget {
   const SplashScreenWidget(BuildContext context, {Key? key}) : super(key: key);
@@ -21,9 +22,9 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget> {
         key: scaffoldKey,
         body: Container(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 1,
+          height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
-            color: whitey,
+            color: cWh,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -35,34 +36,32 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget> {
                 child: ClipPath(
                   clipper: UpperClipper(),
                   child: Container(
+                    padding: const EdgeInsets.only(
+                        bottom: 35.0, left: 50, right: 50),
                     height: 300,
                     decoration: BoxDecoration(
-                      color: blackish,
+                      color: cBl,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          bottom: 35.0, left: 50, right: 50),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Container(
-                            width: 200,
-                            child: Text(
-                              'Добро пожаловать в Read-y!',
-                              style: h3White,
-                              textAlign: TextAlign.right,
-                            ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SizedBox(
+                          width: 200,
+                          child: Text(
+                            'Добро пожаловать в Read-y!',
+                            style: h1White,
+                            textAlign: TextAlign.right,
                           ),
-                          Container(
-                            height: 57,
-                            width: 57,
-                            decoration: BoxDecoration(
-                              color: whitey,
-                              shape: BoxShape.circle,
-                            ),
+                        ),
+                        Container(
+                          height: 60,
+                          width: 60,
+                          decoration: BoxDecoration(
+                            color: cWh,
+                            shape: BoxShape.circle,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -72,7 +71,7 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [],
+                  children: const [],
                 ),
               ),
               Align(
@@ -82,7 +81,7 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget> {
                   child: Container(
                     height: 270,
                     decoration: BoxDecoration(
-                      color: blackish,
+                      color: cBl,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -93,16 +92,13 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget> {
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 20.0),
-                                child: RegisterButton(),
-                              ),
+                            children: const [
+                              RegisterButton(),
                               LoginButton(),
                             ],
                           ),
                         ),
-                        TellMeButton(),
+                        const TellMeButton(),
                       ],
                     ),
                   ),
@@ -115,6 +111,8 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget> {
 }
 
 class RegisterButton extends StatelessWidget {
+  const RegisterButton({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return TextButton(
@@ -126,20 +124,23 @@ class RegisterButton extends StatelessWidget {
           ),
         );
       },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 13, vertical: 4),
-        decoration: BoxDecoration(
-          color: whitey,
-          border: Border.all(color: whitey, width: 2.0),
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
+      child: roundedContainer(
+        Text(
+          'регистрация',
+          style: h3Black,
         ),
-        child: Text('регистрация', style: p1Black),
+        null,
+        4,
+        cWh,
+        cWh,
       ),
     );
   }
 }
 
 class LoginButton extends StatelessWidget {
+  const LoginButton({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return TextButton(
@@ -147,38 +148,42 @@ class LoginButton extends StatelessWidget {
         await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => LoginWidget(),
+            builder: (context) => const LoginWidget(),
           ),
         );
       },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 13, vertical: 4),
-        decoration: BoxDecoration(
-          color: whitey,
-          border: Border.all(color: whitey, width: 2.0),
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
+      child: roundedContainer(
+        Text(
+          'войти',
+          style: h3Black,
         ),
-        child: Text('войти', style: p1Black),
+        null,
+        4,
+        cWh,
+        cWh,
       ),
     );
   }
 }
 
 class TellMeButton extends StatelessWidget {
+  const TellMeButton({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () async {
         // TODO: Tell about app (IntroductionScreen?)
       },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 13, vertical: 4),
-        decoration: BoxDecoration(
-          color: purplish,
-          border: Border.all(color: purplish, width: 2.0),
-          borderRadius: BorderRadius.all(Radius.circular(40.0)),
+      child: roundedContainer(
+        Text(
+          'расскажите мне о read-y',
+          style: h3White,
         ),
-        child: Text('расскажите мне о Read-y', style: p1White),
+        null,
+        4,
+        cPu,
+        cPu,
       ),
     );
   }
