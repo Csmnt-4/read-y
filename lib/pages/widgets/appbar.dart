@@ -8,14 +8,13 @@ AppBar appBar(nickname, scaffoldKey, size) {
 // TODO?: Implement more maquette-like appbar
   return AppBar(
     title: Center(
-      widthFactor: 3.5,
+      widthFactor: 3.74,
       child: Text(
         nickname.toString().toLowerCase(),
         style: h0White,
       ),
     ),
-    leading:
-    ClipPath(
+    leading: ClipPath(
       clipper: IconShapeBorder(),
       child: Container(
         height: 100,
@@ -26,14 +25,14 @@ AppBar appBar(nickname, scaffoldKey, size) {
         ),
         child: IconButton(
           padding: const EdgeInsets.only(right: 5.0, bottom: 5.0),
-          icon: const Icon(Icons.dehaze_rounded, size: 30,),
+          icon: const Icon(Icons.dehaze_rounded, size: 31,),
           onPressed: () => scaffoldKey.currentState?.openDrawer(),
           color: cWh,
         ),
       ),
     ),
-    backgroundColor: Colors.black,
-    shadowColor: cWh,
+    backgroundColor: cBl,
+    shadowColor: Colors.transparent,
     shape: AppbarShapeBorder(),
   );
 }

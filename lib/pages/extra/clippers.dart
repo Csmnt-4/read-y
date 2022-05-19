@@ -89,7 +89,7 @@ class SmallerLowerClipper extends CustomClipper<Path> {
 class AppbarShapeBorder extends ContinuousRectangleBorder {
   @override
   Path getOuterPath(Rect rect, {TextDirection? textDirection}) {
-    const he = 110.0;
+    const he = 115.0;
     const wi = 450.0;
     Path path = Path();
     path.moveTo(0, 0);

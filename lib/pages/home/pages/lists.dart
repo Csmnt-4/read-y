@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../data/colors.dart';
-import '../../data/firebase_data_service.dart';
-import '../../data/fonts.dart';
-import '../widgets/loading_screen.dart';
+import '../../../data/colors.dart';
+import '../../../data/firebase_data_service.dart';
+import '../../../data/fonts.dart';
+import '../../widgets/loading_screen.dart';
 
 Widget listsPage(BuildContext context, userId, nickname) {
   return FutureBuilder(
@@ -18,8 +18,7 @@ Widget listsPage(BuildContext context, userId, nickname) {
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               color: cWh,
-              child: const Center(
-              ),
+              child: const Center(),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 100.0),
@@ -28,13 +27,19 @@ Widget listsPage(BuildContext context, userId, nickname) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 8.0, left: 20),
+                      padding: const EdgeInsets.fromLTRB(
+                        20,
+                        8,
+                        0,
+                        0,
+                      ),
                       child: Container(
                         padding: const EdgeInsets.all(2),
                         decoration: BoxDecoration(
-                          border:
-                              Border.all(color: cWh, width: 2.0),
-                          borderRadius: const BorderRadius.all(Radius.circular(40.0)),
+                          border: Border.all(color: cWh, width: 2.0),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(40.0),
+                          ),
                         ),
                         child: TextButton(
                           onPressed: () {
@@ -64,12 +69,17 @@ Widget listsPage(BuildContext context, userId, nickname) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
-                              padding: const EdgeInsets.only(left: 3, bottom: 3),
+                              padding: const EdgeInsets.fromLTRB(
+                                3,
+                                0,
+                                0,
+                                3,
+                              ),
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: cWh, width: 2.0),
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(40.0)),
+                                border: Border.all(color: cWh, width: 2.0),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(40.0),
+                                ),
                               ),
                               child: TextButton(
                                 onPressed: () {

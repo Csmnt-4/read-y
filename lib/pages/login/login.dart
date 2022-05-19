@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:read_y/data/fonts.dart';
 import 'package:read_y/pages/extra/clippers.dart';
@@ -37,7 +38,7 @@ class _LoginWidgetState extends State<LoginWidget> {
         body: ListView(
           children: [
             Center(
-              heightFactor: 0.93,
+              heightFactor: 0.9321,
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
@@ -191,8 +192,8 @@ class _SubmitButton extends StatelessWidget {
       onPressed: () async {
         try {
           var u = await _authService.signInWithEmailAndPassword(
-            email: email.text,
-            password: password.text,
+            email: kDebugMode ? 'test@test.com' : email.text,
+            password: kDebugMode ? 'testtest' : password.text,
           );
           var nickname = await FirebaseFirestore.instance
               .collection("users")
