@@ -192,8 +192,12 @@ class _SubmitButton extends StatelessWidget {
       onPressed: () async {
         try {
           var u = await _authService.signInWithEmailAndPassword(
-            email: kDebugMode ? 'test@test.com' : email.text,
-            password: kDebugMode ? 'testtest' : password.text,
+            email:
+            // kDebugMode ? 'test@test.com' :
+            email.text,
+            password:
+            // kDebugMode ? 'testtest' :
+            password.text,
           );
           var nickname = await FirebaseFirestore.instance
               .collection("users")

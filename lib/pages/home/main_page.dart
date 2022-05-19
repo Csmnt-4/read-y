@@ -1,13 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:read_y/data/colors.dart';
-import 'package:read_y/data/fonts.dart';
 import 'package:read_y/pages/home/pages/statisitics.dart';
 import 'package:read_y/pages/widgets/appbar.dart';
-
-import '../extra/rounded_containers.dart';
-import '../list/list_create.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage(BuildContext context,
@@ -40,13 +35,14 @@ class _MainPageState extends State<MainPage> {
     }
 
     return Scaffold(
+      backgroundColor: cWh,
       key: _scaffoldKey,
       appBar: appBar(nickname, _scaffoldKey, MediaQuery.of(context).size.width),
       body: PageView(
         controller: _controller,
         scrollDirection: Axis.horizontal,
         children: [
-          statisticsPage(context, uid),
+          statisticsPage(context, uid,nickname),
           // listsPage(context, "Lists"),
         ],
       ),

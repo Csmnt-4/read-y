@@ -30,7 +30,6 @@ class _ListCreateState extends State<ListCreate> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: appBar(nickname, _scaffoldKey, MediaQuery.of(context).size.width),
-      //TODO: GET_DATA
       body: NewList(uid: uid, nick: nickname,),
     );
   }

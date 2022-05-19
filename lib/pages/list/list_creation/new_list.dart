@@ -52,13 +52,16 @@ class _NewListState extends State<NewList> {
     ];
 
     return Scaffold(
+      backgroundColor: cWh,
       body: Container(
         decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(125),
-              bottomLeft: Radius.circular(125),
-            ),
-            color: cBl),
+          // borderRadius: const BorderRadius.only(
+          //   topLeft: Radius.circular(125),
+          //   bottomLeft: Radius.circular(125),
+          // ),
+          color: cBl,
+          // shape:,
+        ),
         child: ListView(
           children: [
             Padding(
@@ -93,7 +96,8 @@ class _NewListState extends State<NewList> {
                 runSpacing: 0,
                 children: genres
                     .map(
-                      (e) => ElevatedButton(
+                      (e) =>
+                      ElevatedButton(
                         onPressed: () {
                           if (selectedGenres.isEmpty) {
                             selectedGenres.add(e);
@@ -117,7 +121,7 @@ class _NewListState extends State<NewList> {
                           style: selectedGenres.contains(e) ? h4White : h4Black,
                         ),
                       ),
-                    )
+                )
                     .toList(),
               ),
             ),
@@ -145,10 +149,11 @@ class _NewListState extends State<NewList> {
                 runSpacing: 0,
                 children: century
                     .map(
-                      (e) => ElevatedButton(
+                      (e) =>
+                      ElevatedButton(
                         onPressed: () {
                           setState(
-                            () {
+                                () {
                               if (selectedCentury.isEmpty) {
                                 selectedCentury.add(e);
                               } else if (selectedCentury.contains(e) &&
@@ -169,12 +174,12 @@ class _NewListState extends State<NewList> {
                                       selectedCentury.remove(e);
                                     }
                                   } else if (!selectedCentury.contains(
-                                          century[century.indexOf(e) + 1]) &&
+                                      century[century.indexOf(e) + 1]) &&
                                       selectedCentury.contains(
                                           century[century.indexOf(e) - 1])) {
                                     selectedCentury.remove(e);
                                   } else if (selectedCentury.contains(
-                                          century[century.indexOf(e) + 1]) &&
+                                      century[century.indexOf(e) + 1]) &&
                                       !selectedCentury.contains(
                                           century[century.indexOf(e) - 1])) {
                                     selectedCentury.remove(e);
@@ -190,7 +195,7 @@ class _NewListState extends State<NewList> {
                                           century[century.indexOf(e) - 1])) {
                                     selectedCentury.add(e);
                                   } else if (selectedCentury.contains(
-                                          century[century.indexOf(e) + 1]) ||
+                                      century[century.indexOf(e) + 1]) ||
                                       selectedCentury.contains(
                                           century[century.indexOf(e) - 1])) {
                                     selectedCentury.add(e);
@@ -213,11 +218,11 @@ class _NewListState extends State<NewList> {
                           child: Text(
                             e,
                             style:
-                                selectedCentury.contains(e) ? h4White : h4Black,
+                            selectedCentury.contains(e) ? h4White : h4Black,
                           ),
                         ),
                       ),
-                    )
+                )
                     .toList(),
               ),
             ),
@@ -255,7 +260,7 @@ class _NewListState extends State<NewList> {
                   label: count.round().toString(),
                   onChanged: (double value) {
                     setState(
-                      () {
+                          () {
                         count = value;
                       },
                     );
@@ -311,7 +316,8 @@ class _NewListState extends State<NewList> {
                   Align(
                     alignment: FractionalOffset.topRight,
                     child: TextButton(
-                      onPressed: () => {
+                      onPressed: () =>
+                      {
                         Navigator.of(context).pop(),
                       },
                       child: Text(

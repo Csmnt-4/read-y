@@ -163,9 +163,25 @@ Future<Map<String, List>> fetchNewList(genre, year, diff) async {
   };
 }
 
-void createList() {}
+void createList(userId, list, listId ) {
+  try {
+    var user;
+    if (listId == null) {
+      user = FirebaseFirestore.instance.collection('lists').doc();
+    } else {
+      user = FirebaseFirestore.instance.collection('lists').doc(listId);
+    }
+    user.set(list).onError(
+          (e, _) => print("Error writing document: $e"),
+    );
+  } on FirebaseException catch (e) {
+    // log("Ошибка записи в БД: $e");
+  }
+}
 
-void setList(userId, listId) {}
+void setList(userId, listId) {
+
+}
 
 void setListState(userId, listId) {}
 
