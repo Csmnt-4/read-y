@@ -7,7 +7,7 @@ import '../../widgets/loading_screen.dart';
 
 Widget listsPage(BuildContext context, userId, nickname) {
   return FutureBuilder(
-    future: fetchLists(userId),
+    future: fetchUserLists(userId),
     builder: (BuildContext context, AsyncSnapshot snap) {
       if (!snap.hasData) {
         return loadingScreen(context);

@@ -84,10 +84,10 @@ class FirebaseAuthService {
       }
 
       try {
-        var user = FirebaseFirestore.instance.collection('users').doc();
+        var user = FirebaseFirestore.instance.collection('users').doc(_firebaseAuth.currentUser?.uid);
         var userData = {
           'nick': nick,
-          'about': "",
+          'about': "Это новый пользователь!",
           'lists': {},
           'books': {},
           'id': _firebaseAuth.currentUser?.uid,

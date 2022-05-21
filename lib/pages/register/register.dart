@@ -111,7 +111,7 @@ class _CreateAccountNick extends StatelessWidget {
   Widget build(BuildContext context) {
     return roundedContainer(
       TextField(
-        style: p1White,
+        style: h3White,
         cursorColor: cWh,
         controller: nicknameController,
         decoration: greyTransparentDecoration('ник'),
@@ -135,7 +135,7 @@ class _CreateAccountEmail extends StatelessWidget {
   Widget build(BuildContext context) {
     return roundedContainer(
       TextField(
-        style: p1White,
+        style: h3White,
         cursorColor: cWh,
         controller: emailController,
         decoration: greyTransparentDecoration('e-mail'),
@@ -159,7 +159,7 @@ class _CreateAccountPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     return roundedContainer(
       TextField(
-        style: p1White,
+        style: h3White,
         controller: passwordController,
         cursorColor: cWh,
         obscureText: true,

@@ -43,51 +43,55 @@ class _BooksState extends State<Books> {
       itemCount: widget.books.length,
       itemBuilder: (context, index) {
         String key = widget.books.keys.elementAt(index);
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(20, 15, 0, 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              roundedContainer(
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget> [
+            roundedContainer(
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                  child: Text(
+                    "${widget.books[key]!["author"]} - $key",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: h3Black,
+                  ),
+                ),
+                MediaQuery.of(context).size.width * 0.75,
+                0,
+                cWh,
+                cWh),
+            TextButton(
+                onPressed: () => {
+                      setState(() {
+                        String bookState =
+                            widget.books[key]!["state"].toString();
+                        if (bookState == "ab") {
+                          widget.books[key]!["state"] = "ns";
+                        } else {
+                          widget.books[key]!["state"] =
+                              states[states.indexOf(bookState) + 1];
+                        }
+                      })
+                    },
+                child: Container(
+                  height: 40,
+                  width: 40,
+                  decoration: BoxDecoration(
+                    color: cWh,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
                     child: Text(
-                      "${widget.books[key]!["author"]} - $key",
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                      getBookState(
+                        widget.books[key]!["state"].toString(),
+                      ).toString(),
                       style: h3Black,
+                      textAlign: TextAlign.center,
                     ),
                   ),
-                  MediaQuery.of(context).size.width * 0.75,
-                  0,
-                  cWh,
-                  cWh),
-              ElevatedButton(
-                onPressed: () => {
-                  setState(() {
-                    String bookState = widget.books[key]!["state"].toString();
-                    if (bookState == "ab") {
-                      widget.books[key]!["state"] = "ns";
-                    } else {
-                      widget.books[key]!["state"] =
-                          states[states.indexOf(bookState) + 1];
-                    }
-                  })
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: const CircleBorder(),
-                  primary: cWh, // <-- Button color
-                  // <-- Splash color
-                ),
-                child: Text(
-                  getBookState(
-                    widget.books[key]!["state"].toString(),
-                  ).toString(),
-                  style: h4Black,
-                ),
-              )
-            ],
-          ),
+                ))
+          ],
         );
       },
     );
@@ -122,69 +126,68 @@ class _FilteredBooksState extends State<FilteredBooks> {
     );
     return ListView(
       children: [
-        ListView.builder(
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          itemCount: all.length,
-          itemBuilder: (context, index) {
-            String key = all.keys.elementAt(index);
-            return Padding(
-              padding: const EdgeInsets.only(left:
-                20,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  roundedContainer(
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(
+        Padding(
+          padding: const EdgeInsets.only(left: 30.0),
+          child: Container(
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: all.length,
+              itemBuilder: (context, index) {
+                String key = all.keys.elementAt(index);
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget> [
+                    roundedContainer(
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                          child: Text(
+                            "${widget.books[key]!["author"]} - $key",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: h3Black,
+                          ),
+                        ),
+                        MediaQuery.of(context).size.width * 0.75,
                         0,
-                        5,
-                        0,
-                        5,
-                      ),
-                      child: Text(
-                        "${all[key]!["author"]} - $key",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: h2Black,
-                      ),
-                    ),
-                    MediaQuery.of(context).size.width * 0.75,
-                    0,
-                    cWh,
-                    cWh,
-                  ),
-                  ElevatedButton(
-                    onPressed: () => {
-                      setState(
-                        () {
-                          String bookState = all[key]!["state"].toString();
-                          if (bookState == "ab") {
-                            widget.books[key]!["state"] = "ns";
-                          } else {
-                            widget.books[key]!["state"] =
-                                states[states.indexOf(bookState) + 1];
-                          }
+                        cWh,
+                        cWh),
+                    TextButton(
+                        onPressed: () => {
+                          setState(() {
+                            String bookState =
+                            widget.books[key]!["state"].toString();
+                            if (bookState == "ab") {
+                              widget.books[key]!["state"] = "ns";
+                            } else {
+                              widget.books[key]!["state"] =
+                              states[states.indexOf(bookState) + 1];
+                            }
+                          })
                         },
-                      )
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: const CircleBorder(),
-                      primary: cWh, // <-- Button color
-                      // <-- Splash color
-                    ),
-                    child: Text(
-                      getBookState(
-                        all[key]!["state"].toString(),
-                      ).toString(),
-                      style: h4Black,
-                    ),
-                  )
-                ],
-              ),
-            );
-          },
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            color: cWh,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 4.0),
+                            child: Text(
+                              getBookState(
+                                widget.books[key]!["state"].toString(),
+                              ).toString(),
+                              style: h3Black,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ))
+                  ],
+                );
+              },
+            ),
+          ),
         ),
         Visibility(
           visible: abandoned.isNotEmpty,
@@ -200,10 +203,10 @@ class _FilteredBooksState extends State<FilteredBooks> {
                 roundedContainer(
                   Text(
                     "отложены:",
-                    style: h4White,
+                    style: h2White,
                   ),
                   null,
-                  0,
+                  4,
                   cBl,
                   cWh,
                 ),
@@ -211,71 +214,66 @@ class _FilteredBooksState extends State<FilteredBooks> {
             ),
           ),
         ),
-        ListView.builder(
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          itemCount: abandoned.length,
-          itemBuilder: (context, index) {
-            String key = abandoned.keys.elementAt(index);
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(
-                20,
-                15,
-                0,
-                0,
-              ),
-              child: Row(
+        Padding(
+          padding: const EdgeInsets.only(left: 30.0),
+          child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: abandoned.length,
+            itemBuilder: (context, index) {
+              String key = abandoned.keys.elementAt(index);
+              return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: <Widget> [
                   roundedContainer(
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                          0,
-                          5,
-                          0,
-                          5,
-                        ),
+                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                         child: Text(
-                          "${abandoned[key]!["author"]} - $key",
+                          "${widget.books[key]!["author"]} - $key",
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: p1Black,
+                          style: h3Black,
                         ),
                       ),
                       MediaQuery.of(context).size.width * 0.75,
                       0,
                       cWh,
                       cWh),
-                  ElevatedButton(
-                    onPressed: () => {
-                      setState(
-                        () {
+                  TextButton(
+                      onPressed: () => {
+                        setState(() {
                           String bookState =
-                              widget.books[key]!["state"].toString();
+                          widget.books[key]!["state"].toString();
                           if (bookState == "ab") {
                             widget.books[key]!["state"] = "ns";
                           } else {
                             widget.books[key]!["state"] =
-                                states[states.indexOf(bookState) + 1];
+                            states[states.indexOf(bookState) + 1];
                           }
-                        },
-                      )
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: const CircleBorder(),
-                      primary: cWh,
-                    ),
-                    child: Text(
-                      getBookState(
-                        abandoned[key]!["state"].toString(),
-                      ).toString(),
-                      style: h4Black,
-                    ),
-                  )
+                        })
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          color: cWh,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 4.0),
+                          child: Text(
+                            getBookState(
+                              widget.books[key]!["state"].toString(),
+                            ).toString(),
+                            style: h3Black,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ))
                 ],
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
         Visibility(
           visible: finished.isNotEmpty,
@@ -291,10 +289,10 @@ class _FilteredBooksState extends State<FilteredBooks> {
                 roundedContainer(
                   Text(
                     "прочитаны:",
-                    style: h4White,
+                    style: h2White,
                   ),
                   null,
-                  0,
+                  4,
                   cBl,
                   cWh,
                 ),
@@ -302,73 +300,66 @@ class _FilteredBooksState extends State<FilteredBooks> {
             ),
           ),
         ),
-        ListView.builder(
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          itemCount: finished.length,
-          itemBuilder: (context, index) {
-            String key = finished.keys.elementAt(index);
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(
-                20,
-                15,
-                0,
-                0,
-              ),
-              child: Row(
+        Padding(
+          padding: const EdgeInsets.only(left: 30.0),
+          child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: finished.length,
+            itemBuilder: (context, index) {
+              String key = finished.keys.elementAt(index);
+              return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: <Widget> [
                   roundedContainer(
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                          0,
-                          5,
-                          0,
-                          5,
-                        ),
+                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                         child: Text(
-                          "${finished[key]!["author"]} - $key",
+                          "${widget.books[key]!["author"]} - $key",
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: p1Black,
+                          style: h3Black,
                         ),
                       ),
                       MediaQuery.of(context).size.width * 0.75,
                       0,
                       cWh,
                       cWh),
-                  ElevatedButton(
-                    onPressed: () => {
-                      setState(
-                        () {
-                          log(key);
+                  TextButton(
+                      onPressed: () => {
+                        setState(() {
                           String bookState =
-                              widget.books[key]!["state"].toString();
+                          widget.books[key]!["state"].toString();
                           if (bookState == "ab") {
                             widget.books[key]!["state"] = "ns";
                           } else {
                             widget.books[key]!["state"] =
-                                states[states.indexOf(bookState) + 1];
+                            states[states.indexOf(bookState) + 1];
                           }
-                        },
-                      )
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: const CircleBorder(),
-                      primary: cWh, // <-- Button color
-                      // <-- Splash color
-                    ),
-                    child: Text(
-                      getBookState(
-                        finished[key]!["state"].toString(),
-                      ).toString(),
-                      style: h4Black,
-                    ),
-                  )
+                        })
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          color: cWh,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 4.0),
+                          child: Text(
+                            getBookState(
+                              widget.books[key]!["state"].toString(),
+                            ).toString(),
+                            style: h3Black,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ))
                 ],
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ],
     );

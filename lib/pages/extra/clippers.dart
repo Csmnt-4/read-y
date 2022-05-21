@@ -89,13 +89,13 @@ class SmallerLowerClipper extends CustomClipper<Path> {
 class AppbarShapeBorder extends ContinuousRectangleBorder {
   @override
   Path getOuterPath(Rect rect, {TextDirection? textDirection}) {
-    const he = 115.0;
-    const wi = 450.0;
+    const he = 120.0;
+    const wi = 500.0;
     Path path = Path();
     path.moveTo(0, 0);
-    path.quadraticBezierTo(0, he * 0.45, 0, he * 0.60);
-    path.cubicTo(wi * 0.25, he * 0.92, wi * 0.75, he * 0.92, wi, he * 0.60);
-    path.quadraticBezierTo(wi, he * 0.45, wi, 0);
+    path.quadraticBezierTo(0, he * 0.6, 0, he * 0.666);
+    path.cubicTo(wi * 0.25, he * 0.92, wi * 0.75, he * 0.92, wi, he * 0.4);
+    path.quadraticBezierTo(wi, 0, wi, 0);
     path.lineTo(0, 0);
     path.close();
 
@@ -123,6 +123,25 @@ class IconShapeBorder extends CustomClipper<Path> {
     path.lineTo(size.width * 0.4090000, size.height * -0.1693000);
     path.close();
 
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return true;
+  }
+}
+
+class DrawerShapeBorder extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.moveTo(0,0);
+    path.quadraticBezierTo(size.width*0.34,0,size.width*0.46,0);
+    path.cubicTo(size.width*1.18,size.height*0.2,size.width*1.14,size.height*0.78,size.width*0.46,size.height);
+    path.quadraticBezierTo(size.width*0.34,size.height,0,size.height);
+    path.lineTo(0,0);
+    path.close();
     return path;
   }
 

@@ -73,16 +73,20 @@ Future<String> fetchReadBooksCount(userId) async {
 
 Future<String> fetchNextBook(userId) async {
   try {
-    var snap = await FirebaseFirestore.instance
+    var snap = FirebaseFirestore.instance
         .collection("users")
-        .where("id", isEqualTo: userId)
-        .get()
-        .then((qSnap) => qSnap.docs[0],
-            onError: (e) => print("Something went wrong: $e"));
-    snap['books'].forEach((elem) {
+        .where("id", isEqualTo: userId);
+    snap = snap.where('state', isEqualTo: 'ip');
+
+    var data = await snap.get().then((qSnap) => qSnap.docs[0],
+        onError: (e) => print("Something went wrong: $e"));
+
+    data['books'].forEach((elem) {
       if (elem['state'] == 'ip') {
         return elem.toString();
-      } else {return snap['books']['title'].toString();}
+      } else {
+        return data['books']['title'].toString();
+      }
     });
     return 'Ничего';
   } catch (e) {
@@ -90,17 +94,12 @@ Future<String> fetchNextBook(userId) async {
   }
 }
 
-Future<Map<String, List>> fetchLists(userId) async {
-  return {
-    'nothing': ['nothing'],
-  };
-}
-
 Future<Map<String, Map<String, String>>?> fetchBooks(
     genres, centuries, percent, uid) async {
-  Query<Map<String, dynamic>> conn = FirebaseFirestore.instance.collection("books");
+  Query<Map<String, dynamic>> conn =
+      FirebaseFirestore.instance.collection("books");
   conn = conn.where("date", isGreaterThan: centuries[0]);
-  conn = conn.where("date", isLessThan: centuries.last);
+  conn = conn.where("date", isLessThan: centuries.last + 10 ^ 6);
 
   var snap = await conn.get().then((qSnap) => qSnap.docs,
       onError: (e) => print("Something went wrong: $e"));
@@ -109,11 +108,11 @@ Future<Map<String, Map<String, String>>?> fetchBooks(
   List states = [];
 
   for (var element in snap) {
-      // log('2');
+    // log('2');
     titles.add(
       element['title'],
     );
-      // log('1');
+    // log('1');
     authors.add(
       element['author'],
     );
@@ -128,69 +127,112 @@ Future<Map<String, Map<String, String>>?> fetchBooks(
           onError: (e) => print("Something went wrong: " + e),
         );
     print(state);
-    states.add(state['books'][element]['state']);
+    if (titles.indexOf(element) < states.length) {
+      states.add(state['books'][element]['state']);
+    }
   });
 
   Map<String, Map<String, String>> m = {};
 
   await Future<void>.delayed(
-    const Duration(milliseconds: 500),
+    const Duration(milliseconds: 400),
   );
-  titles.forEach((element) async {
-    if (titles.indexOf(element) < states.length) {
-      m[element] = {
-  'author': authors[titles.indexOf(element)],
-  'state': states[titles.indexOf(element)],
-  };} else {
-  m[element] = {
-  'author': authors[titles.indexOf(element)],
-  'state': 'ns',
-  };
-    }
+  titles.forEach(
+    (element) async {
+      if (titles.indexOf(element) < states.length) {
+        m[element] = {
+          'author': authors[titles.indexOf(element)],
+          'state': states[titles.indexOf(element)],
+          'url' : '',
+          'trusted' : 'yes',
+        };
+      } else {
+        m[element] = {
+          'author': authors[titles.indexOf(element)],
+          'state': 'ns',
+          'url' : '',
+          'trusted' : 'yes',
+        };
+      }
     },
   );
-  if (m.isEmpty){
+  if (m.isEmpty) {
     return null;
   } else {
-  return m;
+    return m;
   }
 }
 
-Future<Map<String, List>> fetchNewList(genre, year, diff) async {
+Future<Map<String, List>> fetchUserLists(userId) async {
+  return {
+    'nothing': ['nothing'],
+  };
+}
+
+Future<Map<String, List>> fetchList(userId, listId) async {
   return {
     'title': ["No"],
     'state': ["Not started"],
   };
 }
 
-void createList(userId, list, listId ) {
+void createList(userId, books, listId, listTitle) {
   try {
-    var user;
+
+    log(userId);
+    log(listId.toString());
+    log(listTitle);
+
+    var lists;
     if (listId == null) {
-      user = FirebaseFirestore.instance.collection('lists').doc();
+      lists = FirebaseFirestore.instance.collection('lists').doc();
     } else {
-      user = FirebaseFirestore.instance.collection('lists').doc(listId);
+      lists = FirebaseFirestore.instance.collection('lists').doc(listId);
     }
-    user.set(list).onError(
-          (e, _) => print("Error writing document: $e"),
+
+    var user = FirebaseFirestore.instance.collection('users').doc(userId);
+
+    var bookList = {
+      'listId': listId,
+      'title': listTitle,
+      'creatorId': userId,
+      'books': books,
+      'public': false,
+    };
+
+    var userList = {
+      'lists': {
+        listTitle : {
+      'id': listId,
+      'list': true,
+      'state': 'ip',
+    }}};
+
+    lists.set(bookList);
+    log('Booklist set');
+    user.set(userList).onError(
+          (e, _) => log("Error writing document: $e"),
     );
   } on FirebaseException catch (e) {
     // log("Ошибка записи в БД: $e");
   }
 }
 
-void setList(userId, listId) {
-
-}
+void setList(userId, listId) {}
 
 void setListState(userId, listId) {}
 
-void setBookState() {}
+void setBookState(String userId, String bookId, String state) {
+  var ub = FirebaseFirestore.instance.collection('users').doc(userId);
+  ub.set({'state': state}).onError(
+    (e, _) => print("Error writing document: $e"),
+  );
+}
 
 int getCentury(String key) {
   switch (key) {
     case "XI":
-      return 1000000;
+      return 10000000;
     case "XII":
       return 11000000;
     case "XIII":

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:read_y/data/colors.dart';
 import 'package:read_y/data/firebase_data_service.dart';
@@ -26,6 +28,7 @@ class BookList extends StatefulWidget {
   final century;
   final percent;
 
+
   @override
   State<BookList> createState() => _BookListState();
 }
@@ -33,7 +36,22 @@ class BookList extends StatefulWidget {
 class _BookListState extends State<BookList> {
   @override
   Widget build(BuildContext context) {
-    return (widget.century != null && widget.genres != null)
+    String listTitle;
+    var displayTitle;
+
+    widget.century.length >=2 ?
+    {
+      listTitle = '${widget.century.first} - ${widget.century
+        .last} столетия; '
+    }   : listTitle = '${widget.century.first} век; ';
+
+    widget.genres.length >=2 ?
+    {
+      listTitle += ' Жанры: ${widget.genres[0]} и т.д.'
+    }   : listTitle += ' Жанр: ${widget.genres[0]}';
+
+
+  return (widget.century != null && widget.genres != null)
         ? Scaffold(
             appBar: appBar(
                 widget.nickname, widget.key, MediaQuery.of(context).size.width),
@@ -63,7 +81,7 @@ class _BookListState extends State<BookList> {
                                     const EdgeInsets.fromLTRB(25, 0, 40, 0),
                                 child: roundedContainer(
                                     Text(
-                                        "${widget.century.first} - ${widget.century.last} столетие; Жанр: ${widget.genres[0]} и т.д.",
+                                        listTitle,
                                         textAlign: TextAlign.center,
                                         softWrap: false,
                                         maxLines: 2,
@@ -118,11 +136,12 @@ class _BookListState extends State<BookList> {
                                 padding: const EdgeInsets.only(
                                     top: 100.0, bottom: 200.0),
                                 child: Text(
-                                  'Книг по вашим\nфильтрам нет...',
+                                  'Книг по вашим\nфильтрам нет... пока!',
                                   style: h3White,
                                 ),
                               ),
                               ElevatedButton(
+                                //TODO: change to TextButton w/ roundedContainer
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
@@ -144,56 +163,56 @@ class _BookListState extends State<BookList> {
                       } else {
                         return Column(
                           children: [
-                            ListView(
-                              shrinkWrap: true,
-                                children: [
-                                  Books(
-                                    books: snapshot.data,
+                            Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(25, 10, 5, 0),
+                                    child: Books(
+                                      books: snapshot.data,
+                                    ),
                                   ),
                                 ],
                               ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 15.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      var books = snapshot.data;
-                                      createList(widget.uid, books, null);
-                                      Navigator.of(context).push(MaterialPageRoute(
-                                          builder: (context) => FilteredBookList(
-                                              title:
-                                                  "${widget.century.first} - ${widget.century.last} столетие; Жанр: ${widget.genres[0]} и т.д.",
-                                              books: books)));
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    var books = snapshot.data;
+                                    log('rawlist.uid: ${widget.uid}');
+                                    createList(widget.uid, books, null, listTitle);
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                        builder: (context) => FilteredBookList(
+                                            title:
+                                                "${widget.century.first} - ${widget.century.last} столетие; Жанр: ${widget.genres[0]} и т.д.",
+                                            books: books),),);
+                                  },
+                                  child: roundedContainer(
+                                    Text(
+                                      "сохранить",
+                                      style: h1White,
+                                    ),
+                                    null,
+                                    5,
+                                    cPu,
+                                    cPu,
+                                  ),
+                                ),
+                                Align(
+                                  alignment: FractionalOffset.topRight,
+                                  child: TextButton(
+                                    onPressed: () => {
+                                      Navigator.of(context).pop(),
                                     },
-                                    child: roundedContainer(
-                                      Text(
-                                        "сохранить",
-                                        style: h1White,
-                                      ),
-                                      null,
-                                      5,
-                                      cPu,
-                                      cPu,
+                                    child: Text(
+                                      "<-",
+                                      style: h2Art,
                                     ),
                                   ),
-                                  Align(
-                                    alignment: FractionalOffset.topRight,
-                                    child: TextButton(
-                                      onPressed: () => {
-                                        Navigator.of(context).pop(),
-                                      },
-                                      child: Text(
-                                        "<-",
-                                        style: h2Art,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ],
                         );

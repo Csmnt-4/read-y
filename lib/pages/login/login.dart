@@ -137,10 +137,11 @@ class _LoginEmail extends StatelessWidget {
   Widget build(BuildContext context) {
     return roundedContainer(
       TextField(
-          style: h4White,
-          controller: emailController,
-          cursorColor: cWh,
-          decoration: greyTransparentDecoration('e-mail'),),
+        style: h4White,
+        controller: emailController,
+        cursorColor: cWh,
+        decoration: greyTransparentDecoration('e-mail'),
+      ),
       MediaQuery.of(context).size.width / 1.5,
       0,
       cBl,
@@ -161,11 +162,12 @@ class _LoginPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     return roundedContainer(
       TextField(
-          style: h4White,
-          controller: passwordController,
-          cursorColor: cWh,
-          obscureText: true,
-          decoration: greyTransparentDecoration('пароль'),),
+        style: h4White,
+        controller: passwordController,
+        cursorColor: cWh,
+        obscureText: true,
+        decoration: greyTransparentDecoration('пароль'),
+      ),
       MediaQuery.of(context).size.width / 1.5,
       0,
       cBl,
@@ -192,25 +194,23 @@ class _SubmitButton extends StatelessWidget {
       onPressed: () async {
         try {
           var u = await _authService.signInWithEmailAndPassword(
-            email:
-            // kDebugMode ? 'test@test.com' :
-            email.text,
-            password:
-            // kDebugMode ? 'testtest' :
-            password.text,
+            email: kDebugMode ? 'test@test.com' : email.text,
+            password: kDebugMode ? 'testtest' : password.text,
           );
           var nickname = await FirebaseFirestore.instance
               .collection("users")
               .where("id", isEqualTo: u.id)
               .get()
-              .then((qSnap) => qSnap.docs[0]['nick'],
-                  onError: (e) => print("Something went wrong $e"),);
+              .then(
+                (qSnap) => qSnap.docs[0]['nick'],
+                onError: (e) => print("Something went wrong $e"),
+              );
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => MainPage(
                 context,
                 userId: u.id,
-                initialPage: "initialPage",
+                initialPage: "",
                 nickname: nickname,
               ),
             ),
@@ -218,7 +218,11 @@ class _SubmitButton extends StatelessWidget {
         } catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(e.toString(),),
+              backgroundColor: cWh,
+              content: Text(
+                // errorToPrettyString(e.toString());
+                e.toString(),
+              ),
             ),
           );
         }

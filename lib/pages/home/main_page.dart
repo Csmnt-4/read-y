@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:read_y/data/colors.dart';
 import 'package:read_y/pages/home/pages/statisitics.dart';
 import 'package:read_y/pages/widgets/appbar.dart';
+import 'package:read_y/pages/widgets/drawer.dart';
+
+import '../list/list_creation/new_list.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage(BuildContext context,
@@ -26,7 +29,7 @@ class _MainPageState extends State<MainPage> {
     );
 
     final String nickname = widget.nickname.toString();
-    final String uid = widget.userId.toString();
+    final String uid = widget.userId;
 
     @override
     void dispose() {
@@ -37,13 +40,15 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       backgroundColor: cWh,
       key: _scaffoldKey,
-      appBar: appBar(nickname, _scaffoldKey, MediaQuery.of(context).size.width),
+      appBar: appBar(uid, _scaffoldKey, MediaQuery.of(context).size.width),
+      drawer: leftPanel(context),
       body: PageView(
         controller: _controller,
         scrollDirection: Axis.horizontal,
         children: [
-          statisticsPage(context, uid,nickname),
+          statisticsPage(context, uid, nickname),
           // listsPage(context, "Lists"),
+          NewList(uid: uid, nick: nickname,),
         ],
       ),
     );

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:read_y/data/colors.dart';
 import 'package:read_y/data/firebase_data_service.dart';
@@ -290,6 +292,8 @@ class _NewListState extends State<NewList> {
                         }
                         selectedCentury.sort();
                         trueCentury.sort();
+
+                        log('newlist.uid: ${widget.uid}');
                         Navigator.of(context).push(
                           SlideRightRoute(
                             page: BookList(

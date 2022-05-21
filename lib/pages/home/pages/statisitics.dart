@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:read_y/pages/extra/rounded_containers.dart';
 import 'package:read_y/pages/list/list_create.dart';
@@ -32,7 +35,7 @@ Widget statisticsPage(BuildContext context, uid, nick) {
                 children: [
                   roundedContainer(
                       Text(
-                        " списков: ${snap.data['lists']} ",
+                        "списков: ${snap.data['lists']}",
                         style: h2Black,
                       ),
                       null,
@@ -41,6 +44,7 @@ Widget statisticsPage(BuildContext context, uid, nick) {
                       cBl),
                   TextButton(
                     onPressed: () {
+                      log('ListCreate.uid: $uid');
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => ListCreate(
@@ -69,7 +73,7 @@ Widget statisticsPage(BuildContext context, uid, nick) {
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
                 child: roundedContainer(
                   Text(
-                    " завершено: ${snap.data['complete']} ",
+                    "завершено: ${snap.data['complete']}",
                     style: h2Black,
                   ),
                   null,
@@ -83,7 +87,7 @@ Widget statisticsPage(BuildContext context, uid, nick) {
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
                 child: roundedContainer(
                   Text(
-                    " прочитано: ${snap.data['read']} ",
+                    "прочитано: ${snap.data['read']}",
                     style: h2Black,
                   ),
                   null,
@@ -92,16 +96,70 @@ Widget statisticsPage(BuildContext context, uid, nick) {
                   cBl,
                 ),
               ),
-              Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
+              (snap.data['next']).length <= 6
+                  ? Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      child: roundedContainer(
+                          Text(
+                            "в процессе: ${snap.data['next']}",
+                            style: h2Black,
+                          ),
+                          null,
+                          3,
+                          cWh,
+                          cBl),
+                    )
+                  : Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      child: roundedContainer(
+                        Text(
+                          "в процессе: ${snap.data['next']}",
+                          style: h2Black,
+                        ),
+                        null,
+                        3,
+                        cWh,
+                        cBl,
+                      ),
+                    ),
+              TextButton(
+                onPressed: () async {
+                  // var ub = FirebaseFirestore.instance
+                  //     .collection('users')
+                  //     .doc('SIHKwohabjSF64GqsMhZxFqOzmG2');
+                  // ub.collection('books').get().then((qSnap) => qSnap.docs[0],
+                  //     onError: (e) => print("Something went wrong: $e"));
+                  // log(ub.toString());
+
+                  var snap = FirebaseFirestore.instance
+                      .collection("users")
+                      .where("id", isEqualTo: 'SIHKwohabjSF64GqsMhZxFqOzmG2');
+                  // snap = snap.where('book', isEqualTo: true);
+                  // snap = snap.where('state', isEqualTo: 'ip');
+
+                  var data = await snap.get().then((qSnap) => qSnap.docs,
+                      onError: (e) => print("Something went wrong: $e"));
+                  //.where('state', isEqualTo: 'ip')
+                  // ['books']
+                  // log(data.toString());
+                  // log(data['books'].toString());
+                  data.forEach((e) {
+                    log(e.toString());
+                    log(e.data().toString());
+                    // e.data().forEach((el) {
+                    //   log(el.toString());
+                    // });
+                  });
+                },
                 child: roundedContainer(
                   Text(
-                    " в процессе: ${snap.data['next']}",
-                    style: h2Black,
+                    '+',
+                    style: h3Black,
                   ),
                   null,
-                  3,
+                  8,
                   cWh,
                   cBl,
                 ),

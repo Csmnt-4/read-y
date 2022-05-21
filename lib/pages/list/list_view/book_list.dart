@@ -39,9 +39,11 @@ class _FilteredBookListState extends State<FilteredBookList> {
                     child: Stack(
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(25, 0, 40, 0),
+                          padding:
+                          const EdgeInsets.fromLTRB(25, 0, 40, 0),
                           child: roundedContainer(
-                              Text(widget.title,
+                              Text(
+                                  widget.title,
                                   textAlign: TextAlign.center,
                                   softWrap: false,
                                   maxLines: 2,
@@ -53,9 +55,14 @@ class _FilteredBookListState extends State<FilteredBookList> {
                               cWh),
                         ),
                         rotatedRoundedContainer(
-                            Text("список", style: h2White), null, 0, cBl, cWh),
+                            Text("список", style: h4White),
+                            null,
+                            10,
+                            cBl,
+                            cWh),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 10, 10, 0),
+                          padding:
+                          const EdgeInsets.fromLTRB(0, 10, 10, 0),
                           child: Align(
                             alignment: Alignment.centerRight,
                             child: Container(
@@ -83,53 +90,56 @@ class _FilteredBookListState extends State<FilteredBookList> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return const Text(
-                    'No Data...',
+                    'Что-то пошло не так...',
                   );
                 } else {
-                  return SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.65,
-                    child: FilteredBooks(
-                      books: widget.books,
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 7.0),
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.8057,
+                      child: FilteredBooks(
+                        books: widget.books,
+                      ),
                     ),
                   );
                 }
               },
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-              child: Stack(
-                children: [
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        primary: cPu,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: BorderSide(color: cPu),
-                        ),
-                      ),
-                      child: Text(
-                        "сохранить",
-                        style: h3White,
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: FractionalOffset.topRight,
-                    child: TextButton(
-                      onPressed: () => {
-                        Navigator.of(context).pop(),
-                      },
-                      child: Text(
-                        "<-",
-                        style: h2Art,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+            //   child: Stack(
+            //     children: [
+            //       const Center(
+            //         // child: ElevatedButton(
+            //         //   onPressed: () {},
+            //         //   style: ElevatedButton.styleFrom(
+            //         //     primary: cPu,
+            //         //     shape: RoundedRectangleBorder(
+            //         //       borderRadius: BorderRadius.circular(18.0),
+            //         //       side: BorderSide(color: cPu),
+            //         //     ),
+            //         //   ),
+            //         //   child: Text(
+            //         //     "сохранить",
+            //         //     style: h3White,
+            //         //   ),
+            //         // ),
+            //       ),
+            //       Align(
+            //         alignment: FractionalOffset.topRight,
+            //         child: TextButton(
+            //           onPressed: () => {
+            //             Navigator.of(context).pop(),
+            //           },
+            //           child: Text(
+            //             "<-",
+            //             style: h2Art,
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),
