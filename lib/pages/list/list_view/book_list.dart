@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:read_y/pages/home/main_page.dart';
 
 import '../../../data/colors.dart';
 import '../../../data/fonts.dart';
@@ -6,9 +7,13 @@ import '../../extra/rounded_containers.dart';
 import '../../widgets/books.dart';
 
 class FilteredBookList extends StatefulWidget {
-  const FilteredBookList({Key? key, required this.books, this.title}) : super(key: key);
+  const FilteredBookList(
+      {Key? key, required this.books, this.title, this.uid, this.nick})
+      : super(key: key);
   final title;
   final books;
+  final uid;
+  final nick;
 
   @override
   State<FilteredBookList> createState() => _FilteredBookListState();
@@ -39,11 +44,9 @@ class _FilteredBookListState extends State<FilteredBookList> {
                     child: Stack(
                       children: <Widget>[
                         Padding(
-                          padding:
-                          const EdgeInsets.fromLTRB(25, 0, 40, 0),
+                          padding: const EdgeInsets.fromLTRB(25, 0, 40, 0),
                           child: roundedContainer(
-                              Text(
-                                  widget.title,
+                              Text(widget.title,
                                   textAlign: TextAlign.center,
                                   softWrap: false,
                                   maxLines: 2,
@@ -55,14 +58,9 @@ class _FilteredBookListState extends State<FilteredBookList> {
                               cWh),
                         ),
                         rotatedRoundedContainer(
-                            Text("список", style: h4White),
-                            null,
-                            10,
-                            cBl,
-                            cWh),
+                            Text("список", style: h4White), null, 10, cBl, cWh),
                         Padding(
-                          padding:
-                          const EdgeInsets.fromLTRB(0, 10, 10, 0),
+                          padding: const EdgeInsets.fromLTRB(0, 10, 10, 0),
                           child: Align(
                             alignment: Alignment.centerRight,
                             child: Container(
@@ -96,7 +94,7 @@ class _FilteredBookListState extends State<FilteredBookList> {
                   return Padding(
                     padding: const EdgeInsets.only(top: 7.0),
                     child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.8057,
+                      height: MediaQuery.of(context).size.height * 0.66,
                       child: FilteredBooks(
                         books: widget.books,
                       ),
@@ -105,41 +103,31 @@ class _FilteredBookListState extends State<FilteredBookList> {
                 }
               },
             ),
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-            //   child: Stack(
-            //     children: [
-            //       const Center(
-            //         // child: ElevatedButton(
-            //         //   onPressed: () {},
-            //         //   style: ElevatedButton.styleFrom(
-            //         //     primary: cPu,
-            //         //     shape: RoundedRectangleBorder(
-            //         //       borderRadius: BorderRadius.circular(18.0),
-            //         //       side: BorderSide(color: cPu),
-            //         //     ),
-            //         //   ),
-            //         //   child: Text(
-            //         //     "сохранить",
-            //         //     style: h3White,
-            //         //   ),
-            //         // ),
-            //       ),
-            //       Align(
-            //         alignment: FractionalOffset.topRight,
-            //         child: TextButton(
-            //           onPressed: () => {
-            //             Navigator.of(context).pop(),
-            //           },
-            //           child: Text(
-            //             "<-",
-            //             style: h2Art,
-            //           ),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
+            Align(
+              alignment: FractionalOffset.centerRight,
+              child:
+              Padding(
+                padding: const EdgeInsets.only(right: 40.0),
+                child: TextButton(
+                  onPressed: () => {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => MainPage(
+                          context,
+                          userId: widget.uid,
+                          initialPage: 1,
+                          nickname: widget.nick,
+                        ),
+                      ),
+                    ),
+                  },
+                  child: Text(
+                    "<-",
+                    style: h2Art,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

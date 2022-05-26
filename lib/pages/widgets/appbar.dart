@@ -5,7 +5,6 @@ import '../../data/colors.dart';
 import '../extra/clippers.dart';
 
 AppBar appBar(nickname, scaffoldKey, size) {
-// TODO?: Implement more maquette-like appbar
   return AppBar(
     // bottomOpacity: 0,
     surfaceTintColor: Colors.transparent,
@@ -33,6 +32,6 @@ AppBar appBar(nickname, scaffoldKey, size) {
         ),
       ),
     ),
-    shape: AppbarShapeBorder(),
+    shape: AppbarShapeBorder(width: size, height: 120),
   );
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:read_y/data/colors.dart';
+import 'package:read_y/pages/home/pages/lists.dart';
 import 'package:read_y/pages/home/pages/statisitics.dart';
 import 'package:read_y/pages/widgets/appbar.dart';
 import 'package:read_y/pages/widgets/drawer.dart';
@@ -11,7 +12,7 @@ class MainPage extends StatefulWidget {
   const MainPage(BuildContext context,
       {Key? key, required this.initialPage, this.userId, this.nickname})
       : super(key: key);
-  final String initialPage;
+  final int initialPage;
   final userId;
   final nickname;
 
@@ -24,8 +25,9 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    int init = widget.initialPage;
     final PageController _controller = PageController(
-      initialPage: 0,
+      initialPage: init,
     );
 
     final String nickname = widget.nickname.toString();
@@ -40,15 +42,25 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       backgroundColor: cWh,
       key: _scaffoldKey,
-      appBar: appBar(uid, _scaffoldKey, MediaQuery.of(context).size.width),
+      appBar: appBar(nickname, _scaffoldKey, MediaQuery.of(context).size.width),
       drawer: leftPanel(context),
       body: PageView(
         controller: _controller,
         scrollDirection: Axis.horizontal,
         children: [
-          statisticsPage(context, uid, nickname),
-          // listsPage(context, "Lists"),
-          NewList(uid: uid, nick: nickname,),
+          statisticsPage(
+            context,
+            uid,
+            nickname,
+          ),
+          ListsPage(
+            context,
+            userId: uid,
+          ),
+          NewList(
+            uid: uid,
+            nick: nickname,
+          ),
         ],
       ),
     );

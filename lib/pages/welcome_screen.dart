@@ -1,17 +1,10 @@
-import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:read_y/data/colors.dart';
-import 'package:read_y/data/firebase_auth_service.dart';
 import 'package:read_y/data/fonts.dart';
 import 'package:read_y/pages/register/register.dart';
 
 import 'extra/clippers.dart';
 import 'extra/rounded_containers.dart';
-import 'home/main_page.dart';
 import 'login/login.dart';
 
 class SplashScreenWidget extends StatefulWidget {
@@ -164,50 +157,12 @@ class _LoginButtonState extends State<LoginButton> {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () async {
-        if (kDebugMode) {
-          try {
-            var u = await FirebaseAuthService(
-              authService: FirebaseAuth.instance,
-            ).signInWithEmailAndPassword(
-              email: 'test@test.com',
-              password: 'testtest',
-            );
-            var nickname = await FirebaseFirestore.instance
-                .collection("users")
-                .where("id", isEqualTo: u.id)
-                .get()
-                .then(
-                  (qSnap) => qSnap.docs[0]['nick'],
-              onError: (e) => log("Something went wrong $e"),
-            );
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) =>
-                    MainPage(
-                      context,
-                      userId: u.id,
-                      initialPage: "",
-                      nickname: nickname,
-                    ),
-              ),
-            );
-          } catch (e) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  e.toString(),
-                ),
-              ),
-            );
-          }
-        } else {
           await Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const LoginWidget(),
             ),
           );
-        }
       },
       child: roundedContainer(
         Text(

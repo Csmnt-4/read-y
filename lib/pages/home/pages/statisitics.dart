@@ -34,14 +34,15 @@ Widget statisticsPage(BuildContext context, uid, nick) {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   roundedContainer(
-                      Text(
-                        "списков: ${snap.data['lists']}",
-                        style: h2Black,
-                      ),
-                      null,
-                      4,
-                      cWh,
-                      cBl),
+                    Text(
+                      "списков: ${snap.data['lists']}",
+                      style: h2White,
+                    ),
+                    null,
+                    4,
+                    cBl,
+                    cWh,
+                  ),
                   TextButton(
                     onPressed: () {
                       log('ListCreate.uid: $uid');
@@ -74,12 +75,12 @@ Widget statisticsPage(BuildContext context, uid, nick) {
                 child: roundedContainer(
                   Text(
                     "завершено: ${snap.data['complete']}",
-                    style: h2Black,
+                    style: h2White,
                   ),
                   null,
                   3,
-                  cWh,
                   cBl,
+                  cWh,
                 ),
               ),
               Container(
@@ -88,12 +89,12 @@ Widget statisticsPage(BuildContext context, uid, nick) {
                 child: roundedContainer(
                   Text(
                     "прочитано: ${snap.data['read']}",
-                    style: h2Black,
+                    style: h2White,
                   ),
                   null,
                   3,
-                  cWh,
                   cBl,
+                  cWh,
                 ),
               ),
               (snap.data['next']).length <= 6
@@ -113,45 +114,53 @@ Widget statisticsPage(BuildContext context, uid, nick) {
                   : Container(
                       alignment: Alignment.center,
                       padding: const EdgeInsets.symmetric(vertical: 12.0),
-                      child: roundedContainer(
-                        Text(
-                          "в процессе: ${snap.data['next']}",
-                          style: h2Black,
-                        ),
-                        null,
-                        3,
-                        cWh,
-                        cBl,
+                      child: Stack(
+                        // mainAxisAlignment: MainAxisAlignment.start,
+                        // crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          roundedContainer(
+                            Text(
+                              "в процессе:\n",
+                              style: h2White,
+                            ),
+                            null,
+                            5,
+                            cBl,
+                            cWh,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 17, top: 39),
+                            child: roundedContainer(
+                              Text(
+                                snap.data['next'],
+                                style: h2Black,
+                              ),
+                              null,
+                              3,
+                              cWh,
+                              cBl,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
               TextButton(
                 onPressed: () async {
-                  // var ub = FirebaseFirestore.instance
-                  //     .collection('users')
-                  //     .doc('SIHKwohabjSF64GqsMhZxFqOzmG2');
-                  // ub.collection('books').get().then((qSnap) => qSnap.docs[0],
-                  //     onError: (e) => print("Something went wrong: $e"));
-                  // log(ub.toString());
-
                   var snap = FirebaseFirestore.instance
                       .collection("users")
-                      .where("id", isEqualTo: 'SIHKwohabjSF64GqsMhZxFqOzmG2');
-                  // snap = snap.where('book', isEqualTo: true);
-                  // snap = snap.where('state', isEqualTo: 'ip');
+                      .where("id", isEqualTo: uid);
 
-                  var data = await snap.get().then((qSnap) => qSnap.docs,
-                      onError: (e) => print("Something went wrong: $e"));
-                  //.where('state', isEqualTo: 'ip')
-                  // ['books']
-                  // log(data.toString());
-                  // log(data['books'].toString());
-                  data.forEach((e) {
-                    log(e.toString());
-                    log(e.data().toString());
-                    // e.data().forEach((el) {
-                    //   log(el.toString());
-                    // });
-                  });
+                  var data = await snap.get().then((qSnap) => qSnap.docs);
+
+                  Map<String, dynamic> lists = {};
+
+                  data.forEach(
+                    (e) {
+                      lists = e.data()['lists'];
+                    },
+                  );
+
+                  log(lists.toString());
                 },
                 child: roundedContainer(
                   Text(

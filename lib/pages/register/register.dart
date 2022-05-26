@@ -203,6 +203,7 @@ class _SubmitButtonState extends State<_SubmitButton> {
             email: widget.email,
             password: widget.password,
           );
+
           if (newUser != null) {
             if (kDebugMode) {
               print(user);
@@ -210,9 +211,9 @@ class _SubmitButtonState extends State<_SubmitButton> {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => MainPage(context,
-                    userId: user.id,
+                    userId: newUser.id,
                     nickname: widget.nick,
-                    initialPage: "initialPage"),
+                    initialPage: 0),
               ),
             );
           } else {

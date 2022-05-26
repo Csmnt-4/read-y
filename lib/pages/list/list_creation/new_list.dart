@@ -57,12 +57,7 @@ class _NewListState extends State<NewList> {
       backgroundColor: cWh,
       body: Container(
         decoration: BoxDecoration(
-          // borderRadius: const BorderRadius.only(
-          //   topLeft: Radius.circular(125),
-          //   bottomLeft: Radius.circular(125),
-          // ),
-          color: cBl,
-          // shape:,
+          color: cWh,
         ),
         child: ListView(
           children: [
@@ -98,8 +93,7 @@ class _NewListState extends State<NewList> {
                 runSpacing: 0,
                 children: genres
                     .map(
-                      (e) =>
-                      ElevatedButton(
+                      (e) => TextButton(
                         onPressed: () {
                           if (selectedGenres.isEmpty) {
                             selectedGenres.add(e);
@@ -113,17 +107,17 @@ class _NewListState extends State<NewList> {
                         style: ElevatedButton.styleFrom(
                           primary: selectedGenres.contains(e) ? cPu : cWh,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
+                            borderRadius: BorderRadius.circular(90.0),
                             side: BorderSide(
-                                color: selectedGenres.contains(e) ? cPu : cWh),
+                                color: selectedGenres.contains(e) ? cPu : cBl),
                           ),
                         ),
                         child: Text(
-                          e,
+                          " $e ",
                           style: selectedGenres.contains(e) ? h4White : h4Black,
                         ),
                       ),
-                )
+                    )
                     .toList(),
               ),
             ),
@@ -151,80 +145,82 @@ class _NewListState extends State<NewList> {
                 runSpacing: 0,
                 children: century
                     .map(
-                      (e) =>
-                      ElevatedButton(
-                        onPressed: () {
-                          setState(
-                                () {
-                              if (selectedCentury.isEmpty) {
-                                selectedCentury.add(e);
-                              } else if (selectedCentury.contains(e) &&
-                                  selectedCentury.length == 1) {
-                                selectedCentury.remove(e);
-                              } else {
-                                if (selectedCentury.contains(e)) {
-                                  if (e == century[0] &&
-                                      selectedCentury.length > 1) {
-                                    if (selectedCentury.contains(
-                                        century[century.indexOf(e) + 1])) {
-                                      selectedCentury.remove(e);
-                                    }
-                                  } else if (e == century[10] &&
-                                      selectedCentury.length > 1) {
-                                    if (selectedCentury.contains(
-                                        century[century.indexOf(e) - 1])) {
-                                      selectedCentury.remove(e);
-                                    }
-                                  } else if (!selectedCentury.contains(
-                                      century[century.indexOf(e) + 1]) &&
-                                      selectedCentury.contains(
-                                          century[century.indexOf(e) - 1])) {
-                                    selectedCentury.remove(e);
-                                  } else if (selectedCentury.contains(
-                                      century[century.indexOf(e) + 1]) &&
-                                      !selectedCentury.contains(
-                                          century[century.indexOf(e) - 1])) {
-                                    selectedCentury.remove(e);
-                                  }
+                      (e) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 1),
+                        child: TextButton(
+                          onPressed: () {
+                            setState(
+                              () {
+                                if (selectedCentury.isEmpty) {
+                                  selectedCentury.add(e);
+                                } else if (selectedCentury.contains(e) &&
+                                    selectedCentury.length == 1) {
+                                  selectedCentury.remove(e);
                                 } else {
-                                  if (e == century[0]) {
-                                    if (selectedCentury.contains(
-                                        century[century.indexOf(e) + 1])) {
+                                  if (selectedCentury.contains(e)) {
+                                    if (e == century[0] &&
+                                        selectedCentury.length > 1) {
+                                      if (selectedCentury.contains(
+                                          century[century.indexOf(e) + 1])) {
+                                        selectedCentury.remove(e);
+                                      }
+                                    } else if (e == century[10] &&
+                                        selectedCentury.length > 1) {
+                                      if (selectedCentury.contains(
+                                          century[century.indexOf(e) - 1])) {
+                                        selectedCentury.remove(e);
+                                      }
+                                    } else if (!selectedCentury.contains(
+                                            century[century.indexOf(e) + 1]) &&
+                                        selectedCentury.contains(
+                                            century[century.indexOf(e) - 1])) {
+                                      selectedCentury.remove(e);
+                                    } else if (selectedCentury.contains(
+                                            century[century.indexOf(e) + 1]) &&
+                                        !selectedCentury.contains(
+                                            century[century.indexOf(e) - 1])) {
+                                      selectedCentury.remove(e);
+                                    }
+                                  } else {
+                                    if (e == century[0]) {
+                                      if (selectedCentury.contains(
+                                          century[century.indexOf(e) + 1])) {
+                                        selectedCentury.add(e);
+                                      }
+                                    } else if (e == century[10] &&
+                                        selectedCentury.contains(
+                                            century[century.indexOf(e) - 1])) {
+                                      selectedCentury.add(e);
+                                    } else if (selectedCentury.contains(
+                                            century[century.indexOf(e) + 1]) ||
+                                        selectedCentury.contains(
+                                            century[century.indexOf(e) - 1])) {
                                       selectedCentury.add(e);
                                     }
-                                  } else if (e == century[10] &&
-                                      selectedCentury.contains(
-                                          century[century.indexOf(e) - 1])) {
-                                    selectedCentury.add(e);
-                                  } else if (selectedCentury.contains(
-                                      century[century.indexOf(e) + 1]) ||
-                                      selectedCentury.contains(
-                                          century[century.indexOf(e) - 1])) {
-                                    selectedCentury.add(e);
                                   }
                                 }
-                              }
-                            },
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: selectedCentury.contains(e) ? cPu : cWh,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(90.0),
-                            side: BorderSide(
-                                color: selectedCentury.contains(e) ? cPu : cWh),
+                              },
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: selectedCentury.contains(e) ? cPu : cWh,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(90.0),
+                              side: BorderSide(
+                                  color: selectedCentury.contains(e) ? cPu : cBl),
+                            ),
                           ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 3.0),
-                          child: Text(
-                            e,
-                            style:
-                            selectedCentury.contains(e) ? h4White : h4Black,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 2.0),
+                            child: Text(
+                              " $e ",
+                              style:
+                                  selectedCentury.contains(e) ? h4White : h4Black,
+                            ),
                           ),
                         ),
                       ),
-                )
+                    )
                     .toList(),
               ),
             ),
@@ -262,7 +258,7 @@ class _NewListState extends State<NewList> {
                   label: count.round().toString(),
                   onChanged: (double value) {
                     setState(
-                          () {
+                      () {
                         count = value;
                       },
                     );
@@ -292,19 +288,21 @@ class _NewListState extends State<NewList> {
                         }
                         selectedCentury.sort();
                         trueCentury.sort();
-
-                        log('newlist.uid: ${widget.uid}');
-                        Navigator.of(context).push(
-                          SlideRightRoute(
-                            page: BookList(
-                                nickname: widget.nick,
-                                genres: selectedGenres,
-                                trueCentury: trueCentury,
-                                century: selectedCentury,
-                                percent: count,
-                                uid: widget.uid),
-                          ),
-                        );
+                        if (selectedCentury.isNotEmpty &&
+                            selectedGenres.isNotEmpty) {
+                          Navigator.of(context).push(
+                            SlideRightRoute(
+                              page: BookList(
+                                  nickname: widget.nick,
+                                  genres: selectedGenres,
+                                  trueCentury: trueCentury,
+                                  century: selectedCentury,
+                                // TODO: Actually request length for the list
+                                  percent: count,
+                                  uid: widget.uid,),
+                            ),
+                          );
+                        }
                       },
                       child: roundedContainer(
                           Text(
@@ -320,8 +318,7 @@ class _NewListState extends State<NewList> {
                   Align(
                     alignment: FractionalOffset.topRight,
                     child: TextButton(
-                      onPressed: () =>
-                      {
+                      onPressed: () => {
                         Navigator.of(context).pop(),
                       },
                       child: Text(

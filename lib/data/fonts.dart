@@ -79,6 +79,13 @@ TextStyle h2Art = GoogleFonts.amita(
   fontWeight: FontWeight.bold,
   letterSpacing: -10,
   fontSize: 40,
+  color: cBl,
+);
+
+TextStyle h2ArtWhite = GoogleFonts.amita(
+  fontWeight: FontWeight.bold,
+  letterSpacing: -10,
+  fontSize: 40,
   color: cWh,
 );
 

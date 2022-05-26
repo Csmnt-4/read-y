@@ -210,7 +210,7 @@ class _SubmitButton extends StatelessWidget {
               builder: (context) => MainPage(
                 context,
                 userId: u.id,
-                initialPage: "",
+                initialPage: 0,
                 nickname: nickname,
               ),
             ),

@@ -87,15 +87,17 @@ class SmallerLowerClipper extends CustomClipper<Path> {
 }
 
 class AppbarShapeBorder extends ContinuousRectangleBorder {
+  final width;
+  final height;
+
+  const AppbarShapeBorder({required double this.width, required double this.height});
   @override
   Path getOuterPath(Rect rect, {TextDirection? textDirection}) {
-    const he = 120.0;
-    const wi = 500.0;
     Path path = Path();
     path.moveTo(0, 0);
-    path.quadraticBezierTo(0, he * 0.6, 0, he * 0.666);
-    path.cubicTo(wi * 0.25, he * 0.92, wi * 0.75, he * 0.92, wi, he * 0.4);
-    path.quadraticBezierTo(wi, 0, wi, 0);
+    path.quadraticBezierTo(0, height * 0.6, 0, height * 0.69);
+    path.cubicTo(width * 0.25, height * 0.92, width * 0.75, height * 0.92, width, height * 0.69);
+    path.quadraticBezierTo(width, 0, width, 0);
     path.lineTo(0, 0);
     path.close();
 
@@ -108,19 +110,19 @@ class IconShapeBorder extends CustomClipper<Path> {
   Path getClip(Size size) {
     Path path = Path();
     path.moveTo(size.width * 0.5, size.height * -0.1);
-    path.quadraticBezierTo(size.width * 0.9739000, size.height * -0.1031000,
-        size.width * 0.9915000, size.height * 0.4131000);
+    path.quadraticBezierTo(size.width * 0.97, size.height * -0.1,
+        size.width * 0.97, size.height * 0.41);
     path.cubicTo(
-        size.width * 0.9720000,
-        size.height * 0.7669000,
-        size.width * 0.7541000,
-        size.height * 0.9707000,
-        size.width * 0.4092000,
-        size.height * 0.9956000);
-    path.quadraticBezierTo(size.width * -0.1270000, size.height * 0.9851000,
-        size.width * -0.1734000, size.height * 0.4131000);
-    path.lineTo(size.width * -0.1734000, size.height * -0.1693000);
-    path.lineTo(size.width * 0.4090000, size.height * -0.1693000);
+        size.width * 0.97,
+        size.height * 0.76,
+        size.width * 0.76,
+        size.height * 0.97,
+        size.width * 0.41,
+        size.height * 0.97);
+    path.quadraticBezierTo(size.width * -0.12, size.height * 0.97,
+        size.width * -0.17, size.height * 0.41);
+    path.lineTo(size.width * -0.17, size.height * -0.17);
+    path.lineTo(size.width * 0.41, size.height * -0.17);
     path.close();
 
     return path;

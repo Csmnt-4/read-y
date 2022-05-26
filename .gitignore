@@ -94,3 +94,11 @@ app.*.symbols
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
+.flutter-plugins-dependencies
+android/app/src/main/res/mipmap-hdpi/launcher_icon.png
+android/app/src/main/res/mipmap-mdpi/launcher_icon.png
+android/app/src/main/res/mipmap-xhdpi/launcher_icon.png
+android/app/src/main/res/mipmap-xxhdpi/launcher_icon.png
+android/app/src/main/res/mipmap-xxxhdpi/launcher_icon.png
+.flutter-plugins-dependencies
+.flutter-plugins-dependencies
