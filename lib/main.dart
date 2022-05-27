@@ -13,7 +13,6 @@ void main() async {
 class ReadyApp extends StatelessWidget {
   const ReadyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

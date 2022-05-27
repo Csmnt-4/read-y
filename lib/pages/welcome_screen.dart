@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:read_y/data/colors.dart';
 import 'package:read_y/data/fonts.dart';
 import 'package:read_y/pages/register/register.dart';
 
-import '../data/colors.dart';
 import 'extra/clippers.dart';
 import 'extra/rounded_containers.dart';
 import 'login/login.dart';
@@ -18,11 +18,18 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) =>
+      Scaffold(
         key: scaffoldKey,
         body: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width,
+          height: MediaQuery
+              .of(context)
+              .size
+              .height,
           decoration: BoxDecoration(
             color: cWh,
           ),
@@ -88,7 +95,7 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget> {
                       children: [
                         Padding(
                           padding:
-                              const EdgeInsets.only(top: 50.0, bottom: 10.0),
+                          const EdgeInsets.only(top: 50.0, bottom: 10.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -138,19 +145,24 @@ class RegisterButton extends StatelessWidget {
   }
 }
 
-class LoginButton extends StatelessWidget {
+class LoginButton extends StatefulWidget {
   const LoginButton({Key? key}) : super(key: key);
 
+  @override
+  State<LoginButton> createState() => _LoginButtonState();
+}
+
+class _LoginButtonState extends State<LoginButton> {
   @override
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () async {
-        await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const LoginWidget(),
-          ),
-        );
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const LoginWidget(),
+            ),
+          );
       },
       child: roundedContainer(
         Text(

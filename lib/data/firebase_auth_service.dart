@@ -61,7 +61,7 @@ class FirebaseAuthService {
     required String email,
     required String password,
   }) async {
-    var test = await FirebaseFirestore.instance
+    var check = await FirebaseFirestore.instance
         .collection("users")
         .where(
           "nick",
@@ -73,7 +73,7 @@ class FirebaseAuthService {
           onError: (e) => print('Something went wrong: $e'),
         );
 
-    if (test.isEmpty) {
+    if (check.isEmpty) {
       try {
         await _firebaseAuth.createUserWithEmailAndPassword(
           email: email,
@@ -84,10 +84,10 @@ class FirebaseAuthService {
       }
 
       try {
-        var user = FirebaseFirestore.instance.collection('users').doc();
+        var user = FirebaseFirestore.instance.collection('users').doc(_firebaseAuth.currentUser?.uid);
         var userData = {
           'nick': nick,
-          'about': "",
+          'about': "Это новый пользователь!",
           'lists': {},
           'books': {},
           'id': _firebaseAuth.currentUser?.uid,

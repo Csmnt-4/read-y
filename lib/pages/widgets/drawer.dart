@@ -1,62 +1,110 @@
 import 'package:flutter/material.dart';
 import 'package:read_y/data/fonts.dart';
+import 'package:read_y/pages/extra/clippers.dart';
+import 'package:read_y/pages/extra/rounded_containers.dart';
 
 import '../../data/colors.dart';
 
 Widget leftPanel(BuildContext context) {
   return Drawer(
+    elevation: 150,
+    backgroundColor: Colors.transparent,
     child: Container(
-      decoration: BoxDecoration(
-        color: cWh,
-        border: Border.all(color: cWh, width: 2.0),
-        borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(200.0),
-          bottomRight: Radius.circular(200.0),
+      color: Colors.transparent,
+      child: ClipPath(
+        clipper: DrawerShapeBorder(),
+        child: Container(
+          color: cWh,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 40,
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    // TODO: toProfile(uid, nick, context)
+                  },
+                  child: roundedContainer(
+                    Text(
+                      'профиль',
+                      style: h2Black,
+                    ),
+                    null,
+                    4,
+                    cWh,
+                    cBl,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 40,
+                  top: 20,
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    // TODO: toListSearch (uid, nick, context)
+                  },
+                  child: roundedContainer(
+                    Text(
+                      'поиск списков',
+                      style: h2Black,
+                    ),
+                    null,
+                    4,
+                    cWh,
+                    cBl,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 40,
+                  top: 20,
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    // TODO: toAddBook (context) implementation
+                  },
+                  child: roundedContainer(
+                    Text(
+                      'предложить кн..',
+                      style: h2Black,
+                    ),
+                    null,
+                    4,
+                    cWh,
+                    cBl,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 40,
+                  top: 20,
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    // TODO: toMyBooks (context) implementation
+                  },
+                  child: roundedContainer(
+                    Text(
+                      'мои книги',
+                      style: h2Black,
+                    ),
+                    null,
+                    4,
+                    cWh,
+                    cBl,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 200,
-            ),
-            child: TextButton(
-              onPressed: () {
-                // TODO: to profile (context) implementation
-              },
-              child: Text(
-                'Профиль',
-                style: h2Black,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 20,
-            ),
-            child: TextButton(
-              onPressed: () {
-                // TODO: to list search (context) implementation
-              },
-              child: Text(
-                'Поиск списков',
-                style: h2Black,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 20,
-            ),
-            child: TextButton(
-              onPressed: () {
-                // TODO: to books (context) implementation
-              },
-              child: Text('Книги', style: h2Black),
-            ),
-          ),
-        ],
       ),
     ),
   );

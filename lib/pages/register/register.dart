@@ -111,7 +111,7 @@ class _CreateAccountNick extends StatelessWidget {
   Widget build(BuildContext context) {
     return roundedContainer(
       TextField(
-        style: p1White,
+        style: h3White,
         cursorColor: cWh,
         controller: nicknameController,
         decoration: greyTransparentDecoration('ник'),
@@ -135,7 +135,7 @@ class _CreateAccountEmail extends StatelessWidget {
   Widget build(BuildContext context) {
     return roundedContainer(
       TextField(
-        style: p1White,
+        style: h3White,
         cursorColor: cWh,
         controller: emailController,
         decoration: greyTransparentDecoration('e-mail'),
@@ -159,7 +159,7 @@ class _CreateAccountPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     return roundedContainer(
       TextField(
-        style: p1White,
+        style: h3White,
         controller: passwordController,
         cursorColor: cWh,
         obscureText: true,
@@ -203,6 +203,7 @@ class _SubmitButtonState extends State<_SubmitButton> {
             email: widget.email,
             password: widget.password,
           );
+
           if (newUser != null) {
             if (kDebugMode) {
               print(user);
@@ -210,9 +211,9 @@ class _SubmitButtonState extends State<_SubmitButton> {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => MainPage(context,
-                    userId: user.id,
+                    userId: newUser.id,
                     nickname: widget.nick,
-                    initialPage: "initialPage"),
+                    initialPage: 0),
               ),
             );
           } else {
