@@ -25,10 +25,6 @@ class _FilteredBookListState extends State<FilteredBookList> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-            topRight: Radius.circular(125),
-            bottomRight: Radius.circular(125),
-          ),
           color: cBl,
         ),
         child: Column(
@@ -55,7 +51,7 @@ class _FilteredBookListState extends State<FilteredBookList> {
                               null,
                               8,
                               cBl,
-                              cWh),
+                              cWh,),
                         ),
                         rotatedRoundedContainer(
                             Text("список", style: h4White), null, 10, cBl, cWh),
@@ -97,6 +93,7 @@ class _FilteredBookListState extends State<FilteredBookList> {
                       height: MediaQuery.of(context).size.height * 0.66,
                       child: FilteredBooks(
                         books: widget.books,
+                        uid: widget.uid,
                       ),
                     ),
                   );
@@ -123,7 +120,7 @@ class _FilteredBookListState extends State<FilteredBookList> {
                   },
                   child: Text(
                     "<-",
-                    style: h2Art,
+                    style: h2ArtWhite,
                   ),
                 ),
               ),

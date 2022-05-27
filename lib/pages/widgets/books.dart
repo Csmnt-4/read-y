@@ -1,7 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:read_y/data/firebase_data_service.dart';
 import 'package:read_y/data/fonts.dart';
+import 'package:read_y/pages/list/web_view/web.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../data/colors.dart';
 import '../extra/rounded_containers.dart';
@@ -38,7 +39,7 @@ class _BooksState extends State<Books> {
 
   @override
   Widget build(BuildContext context) {
-  var bookList = widget.books['displayMap'];
+    var bookList = widget.books['displayMap'];
     return ListView.builder(
       shrinkWrap: true,
       itemCount: bookList.length,
@@ -64,8 +65,7 @@ class _BooksState extends State<Books> {
             TextButton(
                 onPressed: () => {
                       setState(() {
-                        String bookState =
-                        bookList[key]["state"].toString();
+                        String bookState = bookList[key]["state"].toString();
                         if (bookState == "ab") {
                           bookList[key]["state"] = "ns";
                         } else {
@@ -100,8 +100,10 @@ class _BooksState extends State<Books> {
 }
 
 class FilteredBooks extends StatefulWidget {
-  const FilteredBooks({Key? key, required this.books}) : super(key: key);
+  const FilteredBooks({Key? key, required this.books, this.uid})
+      : super(key: key);
   final Map<String, dynamic> books;
+  final uid;
 
   @override
   State<FilteredBooks> createState() => _FilteredBooksState();
@@ -112,27 +114,21 @@ class _FilteredBooksState extends State<FilteredBooks> {
 
   @override
   Widget build(BuildContext context) {
-
     var bookList = widget.books['displayMap'];
-    Map<String, dynamic> all =
-        Map<String, dynamic>.from(bookList!);
-    Map<String, dynamic> finished =
-        Map<String, dynamic>.from(bookList);
-    Map<String, dynamic> abandoned =
-        Map<String, dynamic>.from(bookList);
+    Map<String, dynamic> all = Map<String, dynamic>.from(bookList!);
+    Map<String, dynamic> finished = Map<String, dynamic>.from(bookList);
+    Map<String, dynamic> abandoned = Map<String, dynamic>.from(bookList);
 
     finished.removeWhere((key, value) => value['state'] != "fi");
     abandoned.removeWhere((key, value) => value['state'] != "ab");
 
     all.removeWhere((key, value) => value['state'] == "fi");
     all.removeWhere((key, value) => value['state'] == "ab");
-    // log(
-    //   all.toString(),
-    // );
+
     return ListView(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 30.0),
+          padding: const EdgeInsets.only(left: 25.0),
           child: ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
@@ -142,32 +138,52 @@ class _FilteredBooksState extends State<FilteredBooks> {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  roundedContainer(
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                        child: Text(
-                          '${bookList[key]!["author"]} - ${bookList[key]!["title"]}',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: h3Black,
+                  TextButton(
+                    onPressed: () {
+
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => WebPage(
+                            nick: "",
+                            url: bookList[key]['url'],
+                          ),
                         ),
-                      ),
-                      MediaQuery.of(context).size.width * 0.75,
-                      0,
-                      cWh,
-                      cWh),
+                      );
+                      // to WebView(initialUrl: bookList[key]['url'],);
+                    },
+                    child: roundedContainer(
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                          child: Text(
+                            '${bookList[key]!["author"]} - ${bookList[key]!["title"]}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: h3Black,
+                          ),
+                        ),
+                        MediaQuery.of(context).size.width * 0.75,
+                        0,
+                        cWh,
+                        cWh),
+                  ),
                   TextButton(
                       onPressed: () => {
-                            setState(() {
-                              String bookState =
-                              bookList[key]["state"].toString();
-                              if (bookState == "ab") {
-                                bookList[key]["state"] = "ns";
-                              } else {
-                                bookList[key]["state"] =
-                                    states[states.indexOf(bookState) + 1];
-                              }
-                            })
+                            setState(
+                              () {
+                                String bookState =
+                                    bookList[key]["state"].toString();
+                                if (bookState == "ab") {
+                                  bookList[key]["state"] = "ns";
+                                  setBookState(
+                                      widget.uid, bookList[key]['id'], 'ns');
+                                } else {
+                                  bookList[key]["state"] =
+                                      states[states.indexOf(bookState) + 1];
+                                  setBookState(widget.uid, bookList[key]['id'],
+                                      states[states.indexOf(bookState) + 1]);
+                                }
+                              },
+                            )
                           },
                       child: Container(
                         height: 40,
@@ -218,7 +234,7 @@ class _FilteredBooksState extends State<FilteredBooks> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 30.0),
+          padding: const EdgeInsets.only(left: 25.0),
           child: ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
@@ -228,7 +244,9 @@ class _FilteredBooksState extends State<FilteredBooks> {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  roundedContainer(
+                  TextButton(
+                    onPressed: () {},
+                    child: roundedContainer(
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                         child: Text(
@@ -241,19 +259,27 @@ class _FilteredBooksState extends State<FilteredBooks> {
                       MediaQuery.of(context).size.width * 0.75,
                       0,
                       cWh,
-                      cWh),
+                      cWh,
+                    ),
+                  ),
                   TextButton(
                       onPressed: () => {
-                            setState(() {
-                              String bookState =
-                              bookList[key]!["state"].toString();
-                              if (bookState == "ab") {
-                                bookList[key]!["state"] = "ns";
-                              } else {
-                                bookList[key]!["state"] =
-                                    states[states.indexOf(bookState) + 1];
-                              }
-                            })
+                            setState(
+                              () {
+                                String bookState =
+                                    bookList[key]!["state"].toString();
+                                if (bookState == "ab") {
+                                  bookList[key]["state"] = "ns";
+                                  setBookState(
+                                      widget.uid, bookList[key]['id'], 'ns');
+                                } else {
+                                  bookList[key]["state"] =
+                                      states[states.indexOf(bookState) + 1];
+                                  setBookState(widget.uid, bookList[key]['id'],
+                                      states[states.indexOf(bookState) + 1]);
+                                }
+                              },
+                            ),
                           },
                       child: Container(
                         height: 40,
@@ -304,7 +330,7 @@ class _FilteredBooksState extends State<FilteredBooks> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 30.0),
+          padding: const EdgeInsets.only(left: 25.0),
           child: ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
@@ -314,7 +340,9 @@ class _FilteredBooksState extends State<FilteredBooks> {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  roundedContainer(
+                  TextButton(
+                    onPressed: () {},
+                    child: roundedContainer(
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                         child: Text(
@@ -327,38 +355,45 @@ class _FilteredBooksState extends State<FilteredBooks> {
                       MediaQuery.of(context).size.width * 0.75,
                       0,
                       cWh,
-                      cWh),
+                      cWh,
+                    ),
+                  ),
                   TextButton(
-                      onPressed: () => {
-                            setState(() {
-                              String bookState =
-                              bookList[key]!["state"].toString();
-                              if (bookState == "ab") {
-                                bookList[key]!["state"] = "ns";
-                              } else {
-                                bookList[key]!["state"] =
-                                    states[states.indexOf(bookState) + 1];
-                              }
-                            })
-                          },
-                      child: Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                          color: cWh,
-                          shape: BoxShape.circle,
+                    onPressed: () => {
+                      setState(
+                        () {
+                          String bookState = bookList[key]!["state"].toString();
+                          if (bookState == "ab") {
+                            bookList[key]["state"] = "ns";
+                            setBookState(widget.uid, bookList[key]['id'], 'ns');
+                          } else {
+                            bookList[key]["state"] =
+                                states[states.indexOf(bookState) + 1];
+                            setBookState(widget.uid, bookList[key]['id'],
+                                states[states.indexOf(bookState) + 1]);
+                          }
+                        },
+                      ),
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                        color: cWh,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Text(
+                          getBookState(
+                            bookList[key]!["state"].toString(),
+                          ).toString(),
+                          style: h3Black,
+                          textAlign: TextAlign.center,
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 4.0),
-                          child: Text(
-                            getBookState(
-                              bookList[key]!["state"].toString(),
-                            ).toString(),
-                            style: h3Black,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ))
+                      ),
+                    ),
+                  )
                 ],
               );
             },

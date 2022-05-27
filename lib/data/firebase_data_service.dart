@@ -61,11 +61,13 @@ Future<String> fetchReadBooksCount(userId) async {
 
     var count = 0;
     // TODO: Books count!
-    snap['lists'].forEach((elem) {
-      if (elem['state'] == 'fi') {
-        count++;
-      }
-    });
+    snap['lists'].forEach(
+      (elem) {
+        if (elem['state'] == 'fi') {
+          count++;
+        }
+      },
+    );
     return count.toString();
   } catch (e) {
     return '0';
@@ -77,12 +79,10 @@ Future<String> fetchNextBook(userId) async {
     var snap = FirebaseFirestore.instance
         .collection("users")
         .where("id", isEqualTo: userId);
-    // snap = snap.where('state', isEqualTo: 'ip');
 
     var data = await snap.get().then((qSnap) => qSnap.docs[0],
         onError: (e) => print("Something went wrong: $e"));
     Map<String, dynamic> books = Map<String, dynamic>.from(data['books']);
-    // log(books.toString());
     books.removeWhere((key, value) => value['state'] != "ip");
     return "${books[books.keys.elementAt(0)]['author']} - ${books.keys.elementAt(0)}";
   } catch (e) {
@@ -116,6 +116,7 @@ Future<Map<String, Map<String, dynamic>>?> fetchBooks(
       }
       if (contain.contains(true)) {
         displayMap[element.id] = {
+          'id': element.id,
           'title': element['title'],
           'author': element['author'],
           'year': element['date'].toString().substring(0, 4),
@@ -123,15 +124,16 @@ Future<Map<String, Map<String, dynamic>>?> fetchBooks(
               ? state['books'][element['title']]['state']
               : 'ns',
         };
+
         listMap[element.id] = {
-          'id' : element.id,
+          'id': element.id,
           'title': element['title'],
           'author': element['author'],
           'year': element['date'].toString().substring(0, 4),
           'genres': element['genres'],
           'trusted': true,
+          // 'url' : element!['url'],
         };
-        element.data();
       }
     },
   );
@@ -158,7 +160,7 @@ Future<Map<String, dynamic>> fetchUserLists(userId) async {
   Map<String, dynamic> lists = {};
 
   data.forEach(
-        (e) {
+    (e) {
       lists = e.data()['lists'];
     },
   );
@@ -166,13 +168,55 @@ Future<Map<String, dynamic>> fetchUserLists(userId) async {
   return lists;
 }
 
-Future<Map<String, List>> fetchList(userId, listId) async {
+Future<Map<String, dynamic>> fetchList(userId, listId) async {
   // TODO: Create list -> title : {author, year, state};
   // Pass to filteredList?
 
+  var state = await FirebaseFirestore.instance
+      .collection("users")
+      .where("id", isEqualTo: userId)
+      .get()
+      .then((qSnap) => qSnap.docs[0]);
+
+  var snap = FirebaseFirestore.instance
+      .collection("lists")
+      .where("listId", isEqualTo: listId);
+
+  var data = await snap.get().then((qSnap) => qSnap.docs);
+  var title;
+  Map<String, dynamic> books = {};
+  var bookData;
+
+  data.forEach(
+    (e) {
+      title = e.data()['title'];
+      bookData = e.data()['books'];
+    },
+  );
+
+  bookData.forEach(
+    (key, value) {
+      books[key] = {
+        'id': value['id'],
+        'title': value['title'],
+        'author': value['author'],
+        'genres': value['genres'],
+        'year': value['year'],
+        'trusted': value['trusted'],
+        'state': state['books'][value['id']].toString() != 'null'
+            ? state['books'][value['id']]['state']
+            : 'ns',
+        'url': state['books'][value['id']].toString() != 'null'
+            ? state['books'][value['id']]['url']
+            : '',
+      };
+      log(state['books'][value['id']].toString());
+    },
+  );
+
   return {
-    'title': ["No"],
-    'state': ["Not started"],
+    'title': title,
+    'books': books,
   };
 }
 
@@ -183,16 +227,19 @@ Future<void> createList(userId, books, listTitle) async {
     Map<String, dynamic> filteredBooks = {};
     var listId = list.id;
     var bookMap = books['listMap'];
+    var displayedMap = books['displayMap'];
 
     for (var book in bookMap.keys) {
-      filteredBooks[bookMap[book]['id']]= {
-        'author': bookMap[book]['author'],
-        'title': bookMap[book]['title'],
-        'year': bookMap[book]['year'],
-        'genres': bookMap[book]['genres'],
-        'trusted': true,
-        'url': ''
-      };
+      if (displayedMap[book]['state'].toString() == 'ns') {
+        var bookState = {
+          "books.${bookMap[book]['id']}": {
+            'title': bookMap[book]['title'],
+            'author': bookMap[book]['author'],
+            'state': 'ns',
+          },
+        };
+        user.update(bookState);
+      }
     }
 
     var bookList = {
@@ -205,6 +252,7 @@ Future<void> createList(userId, books, listTitle) async {
 
     // TODO: If at least one book's state is 'ip' -> state 'ip'
     // Maybe a new parameter of the function..
+
     var userList = {
       'lists.$listId': {
         'id': listId,
@@ -215,36 +263,39 @@ Future<void> createList(userId, books, listTitle) async {
     };
 
     list.set(bookList);
-    user.update(userList).onError(
-          (e, _) => log("Error writing document: $e"),
-        );
+    user.update(userList);
   } on FirebaseException {
     // log("Ошибка записи в БД: $e");
   }
-  // log('Booklist set');
 }
 
 void setList(userId, listId) {}
 
-void setListState(userId, listId) {}
-
-void setBook(String userId, String bookId, String state) {
+void setBookState(String userId, String bookId, String state) {
   var user = FirebaseFirestore.instance.collection('users').doc(userId);
 
   var bookState = {
     "books.$bookId.state": state,
   };
 
-  user.update(bookState).onError(
-        (e, _) => log("Error writing document: $e"),
-      );
+  user.update(bookState);
 }
 
-void updateBookState(String userId, String bookId, String state) {
+void setBook(String userId, String bookId, String state) {
   var ub = FirebaseFirestore.instance.collection('users').doc(userId);
   ub.set({'state': state}).onError(
     (e, _) => print("Error writing document: $e"),
   );
+}
+
+void setListState(String userId, String listId, String state) {
+  var user = FirebaseFirestore.instance.collection('users').doc(userId);
+
+  var listState = {
+    "lists.$listId.state": state,
+  };
+
+  user.update(listState);
 }
 //TODO: Use .set(data, SetOptions(merge: true,) where possible (?)
 

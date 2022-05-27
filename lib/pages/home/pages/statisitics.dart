@@ -45,7 +45,6 @@ Widget statisticsPage(BuildContext context, uid, nick) {
                   ),
                   TextButton(
                     onPressed: () {
-                      log('ListCreate.uid: $uid');
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => ListCreate(
@@ -147,8 +146,8 @@ Widget statisticsPage(BuildContext context, uid, nick) {
               TextButton(
                 onPressed: () async {
                   var snap = FirebaseFirestore.instance
-                      .collection("users")
-                      .where("id", isEqualTo: uid);
+                      .collection("lists")
+                      .where("listId", isEqualTo: 'KmFOhbJ2CIgPXPfx2y2B');
 
                   var data = await snap.get().then((qSnap) => qSnap.docs);
 
@@ -156,11 +155,9 @@ Widget statisticsPage(BuildContext context, uid, nick) {
 
                   data.forEach(
                     (e) {
-                      lists = e.data()['lists'];
+                      lists = e.data()['books'];
                     },
                   );
-
-                  log(lists.toString());
                 },
                 child: roundedContainer(
                   Text(

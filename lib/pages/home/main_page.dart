@@ -56,6 +56,7 @@ class _MainPageState extends State<MainPage> {
           ListsPage(
             context,
             userId: uid,
+            nick: nickname,
           ),
           NewList(
             uid: uid,

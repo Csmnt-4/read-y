@@ -3,7 +3,7 @@ import 'package:read_y/data/colors.dart';
 import 'package:read_y/data/firebase_data_service.dart';
 import 'package:read_y/data/fonts.dart';
 import 'package:read_y/pages/extra/rounded_containers.dart';
-import 'package:read_y/pages/list/list_view/book_list.dart';
+import 'package:read_y/pages/list/list_creation/created_list.dart';
 import 'package:read_y/pages/widgets/appbar.dart';
 import 'package:read_y/pages/widgets/books.dart';
 import 'package:read_y/pages/widgets/loading_screen.dart';

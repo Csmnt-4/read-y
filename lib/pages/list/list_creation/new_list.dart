@@ -64,7 +64,7 @@ class _NewListState extends State<NewList> {
             Padding(
               padding: const EdgeInsets.fromLTRB(
                 15,
-                20,
+                30,
                 0,
                 0,
               ),
@@ -270,65 +270,59 @@ class _NewListState extends State<NewList> {
                 cWh,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 100),
-                    child: TextButton(
-                      onPressed: () {
-                        var trueCentury = [];
-                        for (var element in selectedCentury) {
-                          trueCentury.add(
-                            getCentury(element),
-                          );
-                        }
-                        selectedCentury.sort();
-                        trueCentury.sort();
-                        if (selectedCentury.isNotEmpty &&
-                            selectedGenres.isNotEmpty) {
-                          Navigator.of(context).push(
-                            SlideRightRoute(
-                              page: BookList(
-                                  nickname: widget.nick,
-                                  genres: selectedGenres,
-                                  trueCentury: trueCentury,
-                                  century: selectedCentury,
-                                // TODO: Actually request length for the list
-                                  percent: count,
-                                  uid: widget.uid,),
-                            ),
-                          );
-                        }
-                      },
-                      child: roundedContainer(
-                          Text(
-                            "создать",
-                            style: h2White,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                TextButton(
+                    onPressed: () {
+                      var trueCentury = [];
+                      for (var element in selectedCentury) {
+                        trueCentury.add(
+                          getCentury(element),
+                        );
+                      }
+                      selectedCentury.sort();
+                      trueCentury.sort();
+                      if (selectedCentury.isNotEmpty &&
+                          selectedGenres.isNotEmpty) {
+                        Navigator.of(context).push(
+                          SlideRightRoute(
+                            page: BookList(
+                                nickname: widget.nick,
+                                genres: selectedGenres,
+                                trueCentury: trueCentury,
+                                century: selectedCentury,
+                              // TODO: Actually request length for the list
+                                percent: count,
+                                uid: widget.uid,),
                           ),
-                          null,
-                          3,
-                          cPu,
-                          cPu),
-                    ),
+                        );
+                      }
+                    },
+                    child: roundedContainer(
+                        Text(
+                          "создать",
+                          style: h2White,
+                        ),
+                        null,
+                        3,
+                        cPu,
+                        cPu),
                   ),
-                  Align(
-                    alignment: FractionalOffset.topRight,
-                    child: TextButton(
-                      onPressed: () => {
-                        Navigator.of(context).pop(),
-                      },
-                      child: Text(
-                        "<-",
-                        style: h2Art,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                // Align(
+                //   alignment: FractionalOffset.topRight,
+                //   child: TextButton(
+                //     onPressed: () => {
+                //       Navigator.of(context).pop(),
+                //     },
+                //     child: Text(
+                //       "<-",
+                //       style: h2Art,
+                //     ),
+                //   ),
+                // ),
+              ],
             ),
           ],
         ),
