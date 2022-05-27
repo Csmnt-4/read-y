@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:read_y/pages/extra/rounded_containers.dart';
 import 'package:read_y/pages/list/list_view/list.dart';
@@ -174,7 +176,7 @@ class _ListsPageState extends State<ListsPage> {
                                                         1]);
                                           }
                                         },
-                                      ),
+                                      )
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(
