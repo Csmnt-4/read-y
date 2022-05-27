@@ -5,35 +5,33 @@ import '../../data/colors.dart';
 import '../extra/clippers.dart';
 
 AppBar appBar(nickname, scaffoldKey, size) {
-// TODO?: Implement more maquette-like appbar
   return AppBar(
-    title: Center(
-      widthFactor: 3.5,
-      child: Text(
-        nickname.toString().toLowerCase(),
-        style: h0White,
-      ),
+    // bottomOpacity: 0,
+    surfaceTintColor: Colors.transparent,
+    foregroundColor: Colors.transparent,
+    backgroundColor: cBl,
+    shadowColor: Colors.transparent,
+
+    title: Text(
+      nickname.toString().toLowerCase(),
+      style: h0White,
+      textAlign: TextAlign.center,
     ),
-    leading:
-    ClipPath(
+    leading: ClipPath(
       clipper: IconShapeBorder(),
       child: Container(
-        height: 100,
-        width: 100,
         decoration: BoxDecoration(
           color: cPu,
           shape: BoxShape.rectangle,
         ),
         child: IconButton(
           padding: const EdgeInsets.only(right: 5.0, bottom: 5.0),
-          icon: const Icon(Icons.dehaze_rounded, size: 30,),
+          icon: const Icon(Icons.dehaze_rounded, size: 31,),
           onPressed: () => scaffoldKey.currentState?.openDrawer(),
           color: cWh,
         ),
       ),
     ),
-    backgroundColor: Colors.black,
-    shadowColor: cWh,
-    shape: AppbarShapeBorder(),
+    shape: AppbarShapeBorder(width: size, height: 120),
   );
 }

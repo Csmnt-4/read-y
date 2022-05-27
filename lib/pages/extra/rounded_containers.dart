@@ -9,13 +9,26 @@ Container roundedContainer(
       color: color,
       border: Border.all(color: bColor, width: 1.0),
       borderRadius: const BorderRadius.all(
-        Radius.circular(40.0),
+        Radius.circular(90.0),
       ),
     ),
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: child,
     ),
+  );
+}
+
+Container roundedSmallTextContainer(
+    child, double? width, double vertPad, Color? color, Color bColor) {
+  return Container(
+    height: 15,
+    padding: EdgeInsets.symmetric(horizontal: 0, vertical: vertPad),
+    decoration: BoxDecoration(
+      color: color,
+      shape: BoxShape.circle,
+      ),
+    child: child,
   );
 }
 
@@ -26,7 +39,7 @@ Container rotatedRoundedContainer(
     padding: EdgeInsets.symmetric(vertical: vertPad),
     decoration: BoxDecoration(
       color: color,
-      border: Border.all(color: bColor, width: 2.0),
+      border: Border.all(color: bColor, width: 1.0),
       borderRadius: const BorderRadius.all(
         Radius.circular(40.0),
       ),

@@ -11,3 +11,6 @@ path_provider_ios=Z:\\Code\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_
 path_provider_linux=Z:\\Code\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_linux-2.1.6\\
 path_provider_macos=Z:\\Code\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_macos-2.0.6\\
 path_provider_windows=Z:\\Code\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_windows-2.0.6\\
+webview_flutter=Z:\\Code\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\webview_flutter-3.0.4\\
+webview_flutter_android=Z:\\Code\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\webview_flutter_android-2.8.8\\
+webview_flutter_wkwebview=Z:\\Code\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\webview_flutter_wkwebview-2.7.5\\
