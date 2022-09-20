@@ -10,7 +10,7 @@ AppBar appBar(nickname, scaffoldKey, size) {
     surfaceTintColor: Colors.transparent,
     foregroundColor: Colors.transparent,
     backgroundColor: cBl,
-    shadowColor: Colors.transparent,
+    // shadowColor: Colors.transparent,
 
     title: Text(
       nickname.toString().toLowerCase(),

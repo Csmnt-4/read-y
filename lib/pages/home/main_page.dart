@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:read_y/data/colors.dart';
-import 'package:read_y/pages/home/pages/lists.dart';
-import 'package:read_y/pages/home/pages/statisitics.dart';
+import 'package:read_y/pages/home/lists.dart';
+import 'package:read_y/pages/home/statisitics.dart';
 import 'package:read_y/pages/widgets/appbar.dart';
 import 'package:read_y/pages/widgets/drawer.dart';
 
@@ -58,7 +58,7 @@ class _MainPageState extends State<MainPage> {
       backgroundColor: cWh,
       key: _scaffoldKey,
       appBar: appBar(nickname, _scaffoldKey, MediaQuery.of(context).size.width),
-      drawer: leftPanel(context),
+      drawer: leftPanel(context, uid, nickname),
       body: PageView(
         controller: _controller,
         scrollDirection: Axis.horizontal,

@@ -211,18 +211,16 @@ class _SubmitButtonState extends State<_SubmitButton> {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => MainPage(context,
-                    userId: newUser.id,
-                    nickname: widget.nick,
-                    initialPage: 0),
+                    userId: newUser.id, nickname: widget.nick, initialPage: 0),
               ),
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                backgroundColor: cWh,
+                backgroundColor: cBl,
                 content: Text(
-                  'Nick already in use!',
-                  style: TextStyle(color: cBl),
+                  'этот ник уже занят!',
+                  style: h4White,
                 ),
               ),
             );
@@ -230,10 +228,10 @@ class _SubmitButtonState extends State<_SubmitButton> {
         } catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              backgroundColor: cWh,
+              backgroundColor: cBl,
               content: Text(
-                e.toString(),
-                style: TextStyle(color: cBl),
+                errorToText(e.toString()),
+                style: h4White,
               ),
             ),
           );

@@ -13,19 +13,15 @@ class _MyHomePageState extends State<WebPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Test app'),
-      ),
       body: Stack(
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                margin: const EdgeInsets.all(10),
-                height: 200,
-                child: const WebView(
-                  initialUrl: 'https://flutter.dev',
+                height: MediaQuery.of(context).size.height,
+                child: WebView(
+                  initialUrl: widget.url
                 ),
               ),
             ],

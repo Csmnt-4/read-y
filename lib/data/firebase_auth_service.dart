@@ -84,7 +84,9 @@ class FirebaseAuthService {
       }
 
       try {
-        var user = FirebaseFirestore.instance.collection('users').doc(_firebaseAuth.currentUser?.uid);
+        var user = FirebaseFirestore.instance
+            .collection('users')
+            .doc(_firebaseAuth.currentUser?.uid);
         var userData = {
           'nick': nick,
           'about': "Это новый пользователь!",
@@ -130,5 +132,28 @@ AuthError _determineError(auth.FirebaseAuthException exception) {
     case 'ERROR_MISSING_GOOGLE_AUTH_TOKEN':
     default:
       return AuthError.error;
+  }
+}
+
+String errorToText(String e) {
+  switch (e) {
+    case 'AuthError.invalidEmail':
+      return 'что-то не так с почтой...';
+    case 'AuthError.userDisabled':
+      return 'этот аккаунт был отключенн';
+    case 'AuthError.userNotFound':
+      return 'аккаунт не найден';
+    case 'AuthError.wrongPassword':
+      return 'что-то не так с паролем...';
+    case 'AuthError.nicknameInUse':
+      return 'этот ник уже занят';
+    case 'AuthError.emailAlreadyInUse':
+      return 'эта почта уже занята';
+    case 'AuthError.weakPassword':
+      return 'ваш пароль слишком слабый';
+    case 'AuthError.operationNotAllowed':
+    case 'AuthError.invalidCredential':
+    default:
+      return 'что-то пошло не так...';
   }
 }

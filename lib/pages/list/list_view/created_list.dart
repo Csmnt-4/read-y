@@ -4,7 +4,7 @@ import 'package:read_y/pages/home/main_page.dart';
 import '../../../data/colors.dart';
 import '../../../data/fonts.dart';
 import '../../extra/rounded_containers.dart';
-import '../../widgets/books.dart';
+import '../../books/books.dart';
 
 class FilteredBookList extends StatefulWidget {
   const FilteredBookList(
@@ -30,7 +30,7 @@ class _FilteredBookListState extends State<FilteredBookList> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(15, 40, 0, 0),
+              padding: const EdgeInsets.fromLTRB(10, 40, 0, 0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,

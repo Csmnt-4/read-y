@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:read_y/data/fonts.dart';
+import 'package:read_y/pages/books/all_books.dart';
 import 'package:read_y/pages/extra/clippers.dart';
 import 'package:read_y/pages/extra/rounded_containers.dart';
+import 'package:read_y/pages/list/all_lists.dart';
 
 import '../../data/colors.dart';
 
-Widget leftPanel(BuildContext context) {
+Widget leftPanel(BuildContext context, uid, nick) {
   return Drawer(
     elevation: 150,
     backgroundColor: Colors.transparent,
@@ -30,12 +32,12 @@ Widget leftPanel(BuildContext context) {
                   child: roundedContainer(
                     Text(
                       'профиль',
-                      style: h2Black,
+                      style: h2BlackLowOp,
                     ),
                     null,
                     4,
-                    cWh,
-                    cBl,
+                    cWh.withOpacity(0.5),
+                    cBl.withOpacity(0.5),
                   ),
                 ),
               ),
@@ -46,7 +48,14 @@ Widget leftPanel(BuildContext context) {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    // TODO: toListSearch (uid, nick, context)
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => AllAvailableLists(
+                          uid: uid,
+                          nick: nick,
+                        ),
+                      ),
+                    );
                   },
                   child: roundedContainer(
                     Text(
@@ -72,12 +81,12 @@ Widget leftPanel(BuildContext context) {
                   child: roundedContainer(
                     Text(
                       'предложить кн..',
-                      style: h2Black,
+                      style: h2BlackLowOp,
                     ),
                     null,
                     4,
-                    cWh,
-                    cBl,
+                    cWh.withOpacity(0.5),
+                    cBl.withOpacity(0.5),
                   ),
                 ),
               ),
@@ -88,7 +97,14 @@ Widget leftPanel(BuildContext context) {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    // TODO: toMyBooks (context) implementation
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => AllUserBooks(
+                          uid: uid,
+                          nick: nick,
+                        ),
+                      ),
+                    );
                   },
                   child: roundedContainer(
                     Text(
