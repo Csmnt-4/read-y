@@ -218,10 +218,10 @@ class _SubmitButton extends StatelessWidget {
         } catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              backgroundColor: cWh,
+              backgroundColor: cBl,
               content: Text(
-                // errorToPrettyString(e.toString());
-                e.toString(),
+                errorToText(e.toString()),
+                style: h4White,
               ),
             ),
           );

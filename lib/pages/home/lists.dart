@@ -1,13 +1,11 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:read_y/pages/extra/rounded_containers.dart';
 import 'package:read_y/pages/list/list_view/list.dart';
+import 'package:read_y/pages/widgets/loading_screen.dart';
 
 import '../../../data/colors.dart';
 import '../../../data/firebase_data_service.dart';
 import '../../../data/fonts.dart';
-import '../../widgets/loading_screen.dart';
 
 String? getListState(String key) {
   switch (key) {
@@ -47,17 +45,29 @@ class _ListsPageState extends State<ListsPage> {
       future: fetchUserLists(uid),
       builder: (BuildContext context, AsyncSnapshot snap) {
         if (!snap.hasData) {
-          return loadingScreen(context);
+          return loadingScreen(
+            context,
+            MediaQuery.of(context).size.width,
+            MediaQuery.of(context).size.height,
+          );
         } else {
           Map<String, dynamic> all = Map<String, dynamic>.from(snap.data);
           Map<String, dynamic> finished = Map<String, dynamic>.from(snap.data);
           Map<String, dynamic> abandoned = Map<String, dynamic>.from(snap.data);
 
-          finished.removeWhere((key, value) => value['state'] != "fi");
-          abandoned.removeWhere((key, value) => value['state'] != "ab");
+          finished.removeWhere(
+            (key, value) => value['state'] != "fi",
+          );
+          abandoned.removeWhere(
+            (key, value) => value['state'] != "ab",
+          );
 
-          all.removeWhere((key, value) => value['state'] == "fi");
-          all.removeWhere((key, value) => value['state'] == "ab");
+          all.removeWhere(
+            (key, value) => value['state'] == "fi",
+          );
+          all.removeWhere(
+            (key, value) => value['state'] == "ab",
+          );
           return Column(
             children: [
               Padding(
@@ -114,12 +124,18 @@ class _ListsPageState extends State<ListsPage> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
-                              top: 10, left: 15, right: 10),
+                            top: 10,
+                            left: 15,
+                            right: 10,
+                          ),
                           child: ListView.builder(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             itemCount: all.length,
-                            itemBuilder: (context, index) {
+                            itemBuilder: (
+                              context,
+                              index,
+                            ) {
                               String key = all.keys.elementAt(index);
                               return Row(
                                 mainAxisAlignment:
@@ -131,7 +147,7 @@ class _ListsPageState extends State<ListsPage> {
                                         MaterialPageRoute(
                                           builder: (context) => UserBookList(
                                             uid: uid,
-                                            nick: widget.userId,
+                                            nick: widget.nick,
                                             listId: snap.data[key]['id'],
                                           ),
                                         ),
@@ -140,7 +156,11 @@ class _ListsPageState extends State<ListsPage> {
                                     child: roundedContainer(
                                       Padding(
                                         padding: const EdgeInsets.fromLTRB(
-                                            0, 5, 0, 5),
+                                          0,
+                                          5,
+                                          0,
+                                          5,
+                                        ),
                                         child: Text(
                                           snap.data[key]['title'],
                                           maxLines: 1,
@@ -148,7 +168,7 @@ class _ListsPageState extends State<ListsPage> {
                                           style: h3Black,
                                         ),
                                       ),
-                                      MediaQuery.of(context).size.width * 0.75,
+                                      MediaQuery.of(context).size.width * 0.7,
                                       0,
                                       cWh,
                                       cBl,
@@ -169,11 +189,11 @@ class _ListsPageState extends State<ListsPage> {
                                             snap.data[key]!["state"] = states[
                                                 states.indexOf(listState) + 1];
                                             setListState(
-                                                uid,
-                                                snap.data[key]['id'],
-                                                states[
-                                                    states.indexOf(listState) +
-                                                        1]);
+                                              uid,
+                                              snap.data[key]['id'],
+                                              states[states.indexOf(listState) +
+                                                  1],
+                                            );
                                           }
                                         },
                                       )
@@ -277,21 +297,25 @@ class _ListsPageState extends State<ListsPage> {
                                       );
                                     },
                                     child: roundedContainer(
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              0, 5, 0, 5),
-                                          child: Text(
-                                            snap.data[key]['title'],
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: h3Black,
-                                          ),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                          0,
+                                          5,
+                                          0,
+                                          5,
                                         ),
-                                        MediaQuery.of(context).size.width *
-                                            0.75,
-                                        0,
-                                        cWh,
-                                        cBl),
+                                        child: Text(
+                                          snap.data[key]['title'],
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: h3Black,
+                                        ),
+                                      ),
+                                      MediaQuery.of(context).size.width * 0.7,
+                                      0,
+                                      cWh,
+                                      cBl,
+                                    ),
                                   ),
                                   TextButton(
                                     onPressed: () => {
@@ -308,11 +332,11 @@ class _ListsPageState extends State<ListsPage> {
                                             snap.data[key]!["state"] = states[
                                                 states.indexOf(listState) + 1];
                                             setListState(
-                                                uid,
-                                                snap.data[key]['id'],
-                                                states[
-                                                    states.indexOf(listState) +
-                                                        1]);
+                                              uid,
+                                              snap.data[key]['id'],
+                                              states[states.indexOf(listState) +
+                                                  1],
+                                            );
                                           }
                                         },
                                       )
@@ -412,21 +436,21 @@ class _ListsPageState extends State<ListsPage> {
                                       );
                                     },
                                     child: roundedContainer(
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              0, 5, 0, 5),
-                                          child: Text(
-                                            snap.data[key]['title'],
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: h3Black,
-                                          ),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0, 5, 0, 5),
+                                        child: Text(
+                                          snap.data[key]['title'],
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: h3Black,
                                         ),
-                                        MediaQuery.of(context).size.width *
-                                            0.75,
-                                        0,
-                                        cWh,
-                                        cBl),
+                                      ),
+                                      MediaQuery.of(context).size.width * 0.7,
+                                      0,
+                                      cWh,
+                                      cBl,
+                                    ),
                                   ),
                                   TextButton(
                                     onPressed: () => {

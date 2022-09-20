@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/colors.dart';
 
-Widget loadingScreen(BuildContext context) {
-  final width = MediaQuery.of(context).size.width;
-  final height = MediaQuery.of(context).size.height;
-
+Widget loadingScreen(BuildContext context, width, height) {
   return Scaffold(
     backgroundColor: cWh,
     body: Container(

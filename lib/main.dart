@@ -18,7 +18,7 @@ class ReadyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Read-y App',
       home: SplashScreenWidget(context),
-      // debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

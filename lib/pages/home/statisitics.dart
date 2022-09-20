@@ -1,21 +1,24 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:read_y/pages/extra/rounded_containers.dart';
 import 'package:read_y/pages/list/list_create.dart';
 
-import '../../../data/colors.dart';
-import '../../../data/firebase_data_service.dart';
-import '../../../data/fonts.dart';
-import '../../widgets/loading_screen.dart';
+import '../../data/colors.dart';
+import '../../data/firebase_data_service.dart';
+import '../../data/fonts.dart';
+import '../widgets/loading_screen.dart';
 
 Widget statisticsPage(BuildContext context, uid, nick) {
   return FutureBuilder(
     future: fetchStatistics(uid),
     builder: (BuildContext context, AsyncSnapshot snap) {
       if (!snap.hasData) {
-        return loadingScreen(context);
+        return loadingScreen(
+          context,
+          MediaQuery.of(context).size.width,
+          MediaQuery.of(context).size.height,
+        );
       } else {
         return (Container(
           width: MediaQuery.of(context).size.width,
@@ -130,10 +133,20 @@ Widget statisticsPage(BuildContext context, uid, nick) {
                           Padding(
                             padding: const EdgeInsets.only(left: 17, top: 39),
                             child: roundedContainer(
-                              Text(
-                                snap.data['next'],
-                                style: h2Black,
-                              ),
+                              (snap.data['next']).length >= 30
+                                  ? Text(
+                                      "${snap.data['next'].toString().substring(0, ((snap.data['next']).length / 2).toInt() - 1)}-\n${snap.data['next'].toString().substring(((snap.data['next']).length / 2).toInt() - 1)}",
+                                      style: h2Black,
+                                    )
+                                  : ((snap.data['next']).length >= 28
+                                      ? Text(
+                                          "${snap.data['next'].toString().substring(0, ((snap.data['next']).length / 2).toInt()+1)}-\n${snap.data['next'].toString().substring(((snap.data['next']).length / 2).toInt()+1)}",
+                                          style: h2Black,
+                                        )
+                                      : Text(
+                                          snap.data['next'],
+                                          style: h2Black,
+                                        )),
                               null,
                               3,
                               cWh,
@@ -143,33 +156,36 @@ Widget statisticsPage(BuildContext context, uid, nick) {
                         ],
                       ),
                     ),
-              TextButton(
-                onPressed: () async {
-                  var snap = FirebaseFirestore.instance
-                      .collection("lists")
-                      .where("listId", isEqualTo: 'KmFOhbJ2CIgPXPfx2y2B');
-
-                  var data = await snap.get().then((qSnap) => qSnap.docs);
-
-                  Map<String, dynamic> lists = {};
-
-                  data.forEach(
-                    (e) {
-                      lists = e.data()['books'];
-                    },
-                  );
-                },
-                child: roundedContainer(
-                  Text(
-                    '+',
-                    style: h3Black,
-                  ),
-                  null,
-                  8,
-                  cWh,
-                  cBl,
-                ),
-              ),
+              // kDebugMode
+              //     ? TextButton(
+              //         onPressed: () async {
+              //           // var snap = FirebaseFirestore.instance
+              //           //     .collection("lists")
+              //           //     .where("listId", isEqualTo: 'KmFOhbJ2CIgPXPfx2y2B');
+              //           //
+              //           // var data = await snap.get().then((qSnap) => qSnap.docs);
+              //           //
+              //           // Map<String, dynamic> lists = {};
+              //           //
+              //           // data.forEach(
+              //           //   (e) {
+              //           //     lists = e.data()['books'];
+              //           //   },
+              //           // );
+              //           fetchAllLists();
+              //         },
+              //         child: roundedContainer(
+              //           Text(
+              //             '+',
+              //             style: h3Black,
+              //           ),
+              //           null,
+              //           8,
+              //           cWh,
+              //           cBl,
+              //         ),
+              //       )
+              //     : const SizedBox(),
             ],
           ),
         ));

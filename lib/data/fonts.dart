@@ -75,6 +75,18 @@ TextStyle h2Black = GoogleFonts.vollkorn(
   color: cBl,
 );
 
+TextStyle h2BlackLowOp = GoogleFonts.vollkorn(
+  fontWeight: FontWeight.w500,
+  fontSize: 26,
+  color: cBl.withOpacity(0.5),
+);
+
+TextStyle h2WhiteLowOp = GoogleFonts.vollkorn(
+  fontWeight: FontWeight.w500,
+  fontSize: 26,
+  color: cWh.withOpacity(0.5),
+);
+
 TextStyle h2Art = GoogleFonts.amita(
   fontWeight: FontWeight.bold,
   letterSpacing: -10,

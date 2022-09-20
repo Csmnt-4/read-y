@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:read_y/data/colors.dart';
 import 'package:read_y/data/firebase_data_service.dart';
@@ -7,7 +5,7 @@ import 'package:read_y/data/fonts.dart';
 import 'package:read_y/pages/extra/rounded_containers.dart';
 import 'package:read_y/pages/extra/sliding.dart';
 
-import '../list_view/new_list_raw.dart';
+import 'new_list_raw.dart';
 
 class NewList extends StatefulWidget {
   const NewList({Key? key, required this.uid, this.nick}) : super(key: key);
@@ -207,15 +205,17 @@ class _NewListState extends State<NewList> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(90.0),
                               side: BorderSide(
-                                  color: selectedCentury.contains(e) ? cPu : cBl),
+                                  color:
+                                      selectedCentury.contains(e) ? cPu : cBl),
                             ),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.only(top: 2.0),
                             child: Text(
                               " $e ",
-                              style:
-                                  selectedCentury.contains(e) ? h4White : h4Black,
+                              style: selectedCentury.contains(e)
+                                  ? h4White
+                                  : h4Black,
                             ),
                           ),
                         ),
@@ -275,41 +275,65 @@ class _NewListState extends State<NewList> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 TextButton(
-                    onPressed: () {
-                      var trueCentury = [];
-                      for (var element in selectedCentury) {
-                        trueCentury.add(
-                          getCentury(element),
-                        );
-                      }
-                      selectedCentury.sort();
-                      trueCentury.sort();
-                      if (selectedCentury.isNotEmpty &&
-                          selectedGenres.isNotEmpty) {
-                        Navigator.of(context).push(
-                          SlideRightRoute(
-                            page: BookList(
-                                nickname: widget.nick,
-                                genres: selectedGenres,
-                                trueCentury: trueCentury,
-                                century: selectedCentury,
-                              // TODO: Actually request length for the list
-                                percent: count,
-                                uid: widget.uid,),
+                  onPressed: () {
+                    var trueCentury = [];
+                    for (var element in selectedCentury) {
+                      trueCentury.add(
+                        getCentury(element),
+                      );
+                    }
+                    selectedCentury.sort();
+                    trueCentury.sort();
+                    if (selectedCentury.isNotEmpty &&
+                        selectedGenres.isNotEmpty) {
+                      Navigator.of(context).push(
+                        SlideRightRoute(
+                          page: BookList(
+                            nickname: widget.nick,
+                            genres: selectedGenres,
+                            trueCentury: trueCentury,
+                            century: selectedCentury,
+                            percent: count,
+                            uid: widget.uid,
                           ),
-                        );
-                      }
-                    },
-                    child: roundedContainer(
-                        Text(
-                          "создать",
-                          style: h2White,
                         ),
-                        null,
-                        3,
-                        cPu,
-                        cPu),
-                  ),
+                      );
+                    } else {
+                      selectedGenres.isEmpty
+                          ? ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: cBl,
+                                content: Text(
+                                  "вы не выбрали ни одного жанра!",
+                                  textAlign: TextAlign.center,
+                                  style: h4White,
+                                ),
+                                elevation: 3,
+                              ),
+                            )
+                          : ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: cBl,
+                                content: Text(
+                                  "вы не выбрали ни одного века!",
+                                  textAlign: TextAlign.center,
+                                  style: h4White,
+                                ),
+                                elevation: 3,
+                              ),
+                            );
+                    }
+                  },
+                  child: roundedContainer(
+                      Text(
+                        "создать",
+                        style: h2White,
+                      ),
+                      null,
+                      3,
+                      cPu,
+                      cPu),
+                ),
                 // Align(
                 //   alignment: FractionalOffset.topRight,
                 //   child: TextButton(

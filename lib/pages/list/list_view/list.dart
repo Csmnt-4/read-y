@@ -6,7 +6,8 @@ import 'package:read_y/pages/widgets/loading_screen.dart';
 import '../../../data/colors.dart';
 import '../../../data/fonts.dart';
 import '../../extra/rounded_containers.dart';
-import '../../widgets/books.dart';
+import '../../books/books.dart';
+import 'listInfo.dart';
 
 class UserBookList extends StatefulWidget {
   const UserBookList({
@@ -30,7 +31,11 @@ class _UserBookListState extends State<UserBookList> {
       future: fetchList(widget.uid, widget.listId),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snap) {
         if (!snap.hasData) {
-          return loadingScreen(context);
+          return loadingScreen(
+            context,
+            MediaQuery.of(context).size.width,
+            MediaQuery.of(context).size.height,
+          );
         } else {
           return Scaffold(
             body: Container(
@@ -51,7 +56,7 @@ class _UserBookListState extends State<UserBookList> {
                             children: <Widget>[
                               Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(25, 0, 40, 0),
+                                    const EdgeInsets.fromLTRB(20, 0, 40, 0),
                                 child: roundedContainer(
                                   Text(snap.data['title'],
                                       textAlign: TextAlign.center,
@@ -82,10 +87,25 @@ class _UserBookListState extends State<UserBookList> {
                                     decoration: BoxDecoration(
                                         color: cWh, shape: BoxShape.circle),
                                     child: Center(
-                                      child: Text(
-                                        "i",
-                                        textAlign: TextAlign.center,
-                                        style: h3Black,
+                                      child: TextButton(
+                                        onPressed: () => {
+                                          Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                              builder: (context) => ListInfo(
+                                                title: snap.data['title'],
+                                                listId: snap.data['listId'],
+                                                userId: snap.data['userId'],
+                                                nick: widget.nick,
+                                                uid: widget.uid,
+                                              ),
+                                            ),
+                                          ),
+                                        },
+                                        child: Text(
+                                          "i",
+                                          textAlign: TextAlign.center,
+                                          style: h3Black,
+                                        ),
                                       ),
                                     ),
                                   ),

@@ -12,211 +12,6 @@ Future<Map<String, String>> fetchStatistics(userId) async {
   return map;
 }
 
-Future<String> fetchListCount(userId) async {
-  try {
-    var snap = await FirebaseFirestore.instance
-        .collection("users")
-        .where("id", isEqualTo: userId)
-        .get()
-        .then((qSnap) => qSnap.docs[0],
-            onError: (e) => print("Something went wrong: $e"));
-    var count = snap['lists'].length;
-    // print(snap.length);
-    return count.toString();
-  } catch (e) {
-    return '0';
-  }
-}
-
-Future<String> fetchCompleteListsCount(userId) async {
-  try {
-    var snap = await FirebaseFirestore.instance
-        .collection("users")
-        .where("id", isEqualTo: userId)
-        .get()
-        .then((qSnap) => qSnap.docs[0],
-            onError: (e) => print("Something went wrong: $e"));
-
-    var count = 0;
-    snap['lists'].forEach((elem) {
-      if (elem['state'] == 'ip') {
-        count++;
-      }
-    });
-    // print(snap.length);
-    return count.toString();
-  } catch (e) {
-    return '0';
-  }
-}
-
-Future<String> fetchReadBooksCount(userId) async {
-  try {
-    var snap = await FirebaseFirestore.instance
-        .collection("users")
-        .where("id", isEqualTo: userId)
-        .get()
-        .then((qSnap) => qSnap.docs[0],
-            onError: (e) => print("Something went wrong: $e"));
-
-    var count = 0;
-    // TODO: Books count!
-    snap['lists'].forEach(
-      (elem) {
-        if (elem['state'] == 'fi') {
-          count++;
-        }
-      },
-    );
-    return count.toString();
-  } catch (e) {
-    return '0';
-  }
-}
-
-Future<String> fetchNextBook(userId) async {
-  try {
-    var snap = FirebaseFirestore.instance
-        .collection("users")
-        .where("id", isEqualTo: userId);
-
-    var data = await snap.get().then((qSnap) => qSnap.docs[0],
-        onError: (e) => print("Something went wrong: $e"));
-    Map<String, dynamic> books = Map<String, dynamic>.from(data['books']);
-    books.removeWhere((key, value) => value['state'] != "ip");
-    return "${books[books.keys.elementAt(0)]['author']} - ${books.keys.elementAt(0)}";
-  } catch (e) {
-    return 'Ничего';
-  }
-}
-
-Future<Map<String, Map<String, dynamic>>?> fetchBooks(
-    genres, centuries, percent, uid) async {
-  Query<Map<String, dynamic>> query =
-      FirebaseFirestore.instance.collection("books");
-  query = query.where("date", isGreaterThan: centuries[0]);
-  query = query.where("date", isLessThan: centuries.last + 10 ^ 6);
-  var snap = await query.get().then((qSnap) => qSnap.docs);
-  var state = await FirebaseFirestore.instance
-      .collection("users")
-      .where("id", isEqualTo: uid)
-      .get()
-      .then((qSnap) => qSnap.docs[0]);
-
-  Map<String, dynamic> listMap = {};
-  Map<String, dynamic> displayMap = {};
-
-  //TODO: Adjust length of a list accordingly
-
-  snap.forEach(
-    (element) {
-      List contain = [];
-      for (var genre in genres) {
-        contain.add(element['genres']![getGenre(genre)] == true);
-      }
-      if (contain.contains(true)) {
-        displayMap[element.id] = {
-          'id': element.id,
-          'title': element['title'],
-          'author': element['author'],
-          'year': element['date'].toString().substring(0, 4),
-          'state': state['books'][element['title']].toString() != 'null'
-              ? state['books'][element['title']]['state']
-              : 'ns',
-        };
-
-        listMap[element.id] = {
-          'id': element.id,
-          'title': element['title'],
-          'author': element['author'],
-          'year': element['date'].toString().substring(0, 4),
-          'genres': element['genres'],
-          'trusted': true,
-          // 'url' : element!['url'],
-        };
-      }
-    },
-  );
-
-  Map<String, Map<String, dynamic>> m = {
-    "displayMap": displayMap,
-    "listMap": listMap,
-  };
-
-  if (m.isEmpty) {
-    return null;
-  } else {
-    return m;
-  }
-}
-
-Future<Map<String, dynamic>> fetchUserLists(userId) async {
-  var snap = FirebaseFirestore.instance
-      .collection("users")
-      .where("id", isEqualTo: userId);
-
-  var data = await snap.get().then((qSnap) => qSnap.docs);
-
-  Map<String, dynamic> lists = {};
-
-  data.forEach(
-    (e) {
-      lists = e.data()['lists'];
-    },
-  );
-
-  return lists;
-}
-
-Future<Map<String, dynamic>> fetchList(userId, listId) async {
-  var state = await FirebaseFirestore.instance
-      .collection("users")
-      .where("id", isEqualTo: userId)
-      .get()
-      .then((qSnap) => qSnap.docs[0]);
-
-  var snap = FirebaseFirestore.instance
-      .collection("lists")
-      .where("listId", isEqualTo: listId);
-
-  var data = await snap.get().then((qSnap) => qSnap.docs);
-  var title;
-  Map<String, dynamic> books = {};
-  var bookData;
-
-  data.forEach(
-    (e) {
-      title = e.data()['title'];
-      bookData = e.data()['books'];
-    },
-  );
-
-  bookData.forEach(
-    (key, value) {
-      books[key] = {
-        'id': value['id'],
-        'title': value['title'],
-        'author': value['author'],
-        'genres': value['genres'],
-        'year': value['year'],
-        'trusted': value['trusted'],
-        'state': state['books'][value['id']].toString() != 'null'
-            ? state['books'][value['id']]['state']
-            : 'ns',
-        'url': state['books'][value['id']].toString() != 'null'
-            ? state['books'][value['id']]['url']
-            : '',
-      };
-      log(state['books'][value['id']].toString());
-    },
-  );
-
-  return {
-    'title': title,
-    'books': books,
-  };
-}
-
 Future<void> createList(userId, books, listTitle) async {
   try {
     var list = FirebaseFirestore.instance.collection('lists').doc();
@@ -232,6 +27,7 @@ Future<void> createList(userId, books, listTitle) async {
           "books.${bookMap[book]['id']}": {
             'title': bookMap[book]['title'],
             'author': bookMap[book]['author'],
+            'url': bookMap[book]['url'],
             'state': 'ns',
           },
         };
@@ -268,21 +64,125 @@ Future<void> createList(userId, books, listTitle) async {
 
 void setList(userId, listId) {}
 
-void setBookState(String userId, String bookId, String state) {
-  var user = FirebaseFirestore.instance.collection('users').doc(userId);
-
-  var bookState = {
-    "books.$bookId.state": state,
-  };
-
-  user.update(bookState);
+Future<String> fetchListCount(userId) async {
+  try {
+    var snap = await FirebaseFirestore.instance
+        .collection("users")
+        .where("id", isEqualTo: userId)
+        .get()
+        .then((qSnap) => qSnap.docs[0],
+            onError: (e) => print("Something went wrong: $e"));
+    var count = snap['lists'].length;
+    // print(snap.length);
+    return count.toString();
+  } catch (e) {
+    return '0';
+  }
 }
 
-void setBook(String userId, String bookId, String state) {
-  var ub = FirebaseFirestore.instance.collection('users').doc(userId);
-  ub.set({'state': state}).onError(
-    (e, _) => print("Error writing document: $e"),
+Future<String> fetchCompleteListsCount(userId) async {
+  try {
+    var snap = FirebaseFirestore.instance
+        .collection("users")
+        .where("id", isEqualTo: userId);
+
+    var data = await snap.get().then((qSnap) => qSnap.docs[0]);
+    Map<String, dynamic> lists = Map<String, dynamic>.from(data['lists']);
+    lists.removeWhere((key, value) => value['state'] != "fi");
+    return lists.length.toString();
+  } catch (e) {
+    return '0';
+  }
+}
+
+Future<Map<String, dynamic>> fetchUserLists(userId) async {
+  var snap = FirebaseFirestore.instance
+      .collection("users")
+      .where("id", isEqualTo: userId);
+
+  var data = await snap.get().then((qSnap) => qSnap.docs);
+
+  Map<String, dynamic> lists = {};
+
+  data.forEach(
+    (e) {
+      lists = e.data()['lists'];
+    },
   );
+
+  return lists;
+}
+
+Future<Map<String, dynamic>> fetchAllLists() async {
+  var snap = FirebaseFirestore.instance
+      .collection("lists")
+      .where("public", isEqualTo: true);
+
+  var data = await snap.get().then((qSnap) => qSnap.docs);
+
+  Map<String, dynamic> lists = {};
+
+  data.forEach(
+        (e) {
+      lists[e.data()['listId']] = e.data();
+      log(e.data().toString());
+    },
+  );
+
+  return lists;
+}
+
+Future<Map<String, dynamic>> fetchList(userId, listId) async {
+  var state = await FirebaseFirestore.instance
+      .collection("users")
+      .where("id", isEqualTo: userId)
+      .get()
+      .then((qSnap) => qSnap.docs[0]);
+
+  var snap = FirebaseFirestore.instance
+      .collection("lists")
+      .where("listId", isEqualTo: listId);
+
+  var data = await snap.get().then((qSnap) => qSnap.docs);
+  var title;
+  var bookData;
+  var creator;
+  Map<String, dynamic> books = {};
+
+  data.forEach(
+    (e) {
+      title = e.data()['title'];
+      creator = e.data()['creatorId'];
+      bookData = e.data()['books'];
+    },
+  );
+
+  bookData.forEach(
+    (key, value) {
+      books[key] = {
+        'id': value['id'],
+        'title': value['title'],
+        'author': value['author'],
+        'genres': value['genres'],
+        'year': value['year'],
+        'trusted': value['trusted'],
+        'state': state['books'][value['id']].toString() != 'null'
+            ? state['books'][value['id']]['state']
+            : 'ns',
+        'url': state['books'][value['id']].toString() != 'null'
+            ? state['books'][value['id']]['url']
+            : '',
+      };
+      log(state['books'][value['id']].toString());
+    },
+  );
+
+  return {
+    'title': title,
+    'books': books,
+    'creatorId' : creator,
+    'listId' : listId
+  };
 }
 
 void setListState(String userId, String listId, String state) {
@@ -295,6 +195,138 @@ void setListState(String userId, String listId, String state) {
   user.update(listState);
 }
 //TODO: Use .set(data, SetOptions(merge: true,) where possible (?)
+
+void setBook(String userId, String bookId, String state) {
+  var ub = FirebaseFirestore.instance.collection('users').doc(userId);
+  ub.set({'state': state}).onError(
+    (e, _) => print("Error writing document: $e"),
+  );
+}
+
+void setBookState(String userId, String bookId, String state) {
+  var user = FirebaseFirestore.instance.collection('users').doc(userId);
+
+  var bookState = {
+    "books.$bookId.state": state,
+  };
+
+  user.update(bookState);
+}
+
+Future<String> fetchReadBooksCount(userId) async {
+  try {
+    var snap = FirebaseFirestore.instance
+        .collection("users")
+        .where("id", isEqualTo: userId);
+
+    var data = await snap.get().then((qSnap) => qSnap.docs[0]);
+    Map<String, dynamic> books = Map<String, dynamic>.from(data['books']);
+    books.removeWhere((key, value) => value['state'] != "fi");
+    return books.length.toString();
+  } catch (e) {
+    return '0';
+  }
+}
+
+Future<Map<String, Map<String, dynamic>>?> fetchBooks(
+    genres, centuries, percent, uid) async {
+  Query<Map<String, dynamic>> query =
+      FirebaseFirestore.instance.collection("books");
+  query = query.where("date", isGreaterThan: centuries[0]);
+  query = query.where("date", isLessThan: centuries.last + 10 ^ 6);
+  var snap = await query.get().then((qSnap) => qSnap.docs);
+  var state = await FirebaseFirestore.instance
+      .collection("users")
+      .where("id", isEqualTo: uid)
+      .get()
+      .then((qSnap) => qSnap.docs[0]);
+
+  Map<String, dynamic> listMap = {};
+  Map<String, dynamic> displayMap = {};
+
+  //TODO: Adjust length of a list accordingly
+
+  log(percent.toString());
+  var len = 0;
+  snap.forEach(
+    (element) {
+      if (len <= percent) {
+        List contain = [];
+        for (var genre in genres) {
+          contain.add(element['genres']![getGenre(genre)] == true);
+        }
+        if (contain.contains(true)) {
+          displayMap[element.id] = {
+            'id': element.id,
+            'title': element['title'],
+            'author': element['author'],
+            'year': element['date'].toString().substring(0, 4),
+            'state': state['books'][element['title']].toString() != 'null'
+                ? state['books'][element['title']]['state']
+                : 'ns',
+          };
+
+          log(len.toString());
+          listMap[element.id] = {
+            'id': element.id,
+            'title': element['title'],
+            'author': element['author'],
+            'year': element['date'].toString().substring(0, 4),
+            'genres': element['genres'],
+            'trusted': true,
+            'url': element['url'],
+          };
+        }
+      }
+      len++;
+    },
+  );
+
+  Map<String, Map<String, dynamic>> m = {
+    "displayMap": displayMap,
+    "listMap": listMap,
+  };
+
+  if (m.isEmpty) {
+    return null;
+  } else {
+    return m;
+  }
+}
+
+Future<Map<String, dynamic>> fetchUserBooks(userId) async {
+  var snap = FirebaseFirestore.instance
+      .collection("users")
+      .where("id", isEqualTo: userId);
+
+  var data = await snap.get().then((qSnap) => qSnap.docs);
+
+  Map<String, dynamic> books = {};
+
+  data.forEach(
+    (e) {
+      books = e.data()['books'];
+    },
+  );
+
+  return books;
+}
+
+Future<String> fetchNextBook(userId) async {
+  try {
+    var snap = FirebaseFirestore.instance
+        .collection("users")
+        .where("id", isEqualTo: userId);
+
+    var data = await snap.get().then((qSnap) => qSnap.docs[0],
+        onError: (e) => print("Something went wrong: $e"));
+    Map<String, dynamic> books = Map<String, dynamic>.from(data['books']);
+    books.removeWhere((key, value) => value['state'] != "ip");
+    return "${books[books.keys.elementAt(0)]['author']} - ${books[books.keys.elementAt(0)]['title']}";
+  } catch (e) {
+    return 'ничего';
+  }
+}
 
 int getCentury(String key) {
   switch (key) {

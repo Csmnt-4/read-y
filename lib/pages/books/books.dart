@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:read_y/data/firebase_data_service.dart';
 import 'package:read_y/data/fonts.dart';
-import 'package:read_y/pages/list/web_view/web.dart';
+import 'package:read_y/pages/books/web_view/web.dart';
 
 import '../../data/colors.dart';
 import '../extra/rounded_containers.dart';
@@ -127,7 +127,7 @@ class _FilteredBooksState extends State<FilteredBooks> {
     return ListView(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 25.0),
+          padding: const EdgeInsets.only(left: 20.0),
           child: ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
@@ -160,7 +160,7 @@ class _FilteredBooksState extends State<FilteredBooks> {
                             style: h3Black,
                           ),
                         ),
-                        MediaQuery.of(context).size.width * 0.75,
+                        MediaQuery.of(context).size.width * 0.70,
                         0,
                         cWh,
                         cWh),
@@ -255,7 +255,7 @@ class _FilteredBooksState extends State<FilteredBooks> {
                           style: h3Black,
                         ),
                       ),
-                      MediaQuery.of(context).size.width * 0.75,
+                      MediaQuery.of(context).size.width * 0.7,
                       0,
                       cWh,
                       cWh,
@@ -351,7 +351,7 @@ class _FilteredBooksState extends State<FilteredBooks> {
                           style: h3Black,
                         ),
                       ),
-                      MediaQuery.of(context).size.width * 0.75,
+                      MediaQuery.of(context).size.width * 0.7,
                       0,
                       cWh,
                       cWh,
